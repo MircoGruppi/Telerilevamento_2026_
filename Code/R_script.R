@@ -28,3 +28,5 @@ library(terra) #richiama pacchetto per usarlo
 install.packages("devtools") # remotes
 library(devtools) # remotes
 install_github("ducciorocchini/imageRy") #installazione tramite github -> + comodo per aggiornamento (???)
+library(imageRy)
+im.list()
