@@ -47,6 +47,8 @@ RGB = im.plotRGB(gr, 1, 2, 4)
 #tutte le zone che hanno temperature più alte nel 2000 vengono rosse, 
 #quelle con temperature più alte nel 2005 vengono verdi, quelle con temperature più alte nel 2015 verrano blu)
 
+# Lezione 9 Aprile
+
 #importo dati
 ndvi <- im.import("Sentinel2_NDVI")
 hist(ndvi)
