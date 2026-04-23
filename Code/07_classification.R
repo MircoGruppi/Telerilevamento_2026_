@@ -2,6 +2,8 @@
 
 library(terra)
 library(imageRy)
+library(ggplot2) #disegna grafici
+library(patchwork) #compone plot di ggplot
 
 setwd("C:/Users/mirco/Downloads")
 
@@ -58,8 +60,7 @@ levels(m2006c) <- data.frame(
   value = c(2, 1),
   label = c("forest", "human")
 )
-
-#Creiamo percentuali di foresta e umano nel 1992 e 2006
+pa
 
 #Percentuali
 #Frequenza= numero di pixel di una classe
@@ -74,10 +75,33 @@ freq2006 <- freq(m2006c)
 
 perc2006 <- freq2006$count * 100 / ncell(m2006c)
 
-# creiamo tabella
+# creiamo tabella -> dataframe a 3 colonne
 tabout <- data.frame(
   class=c("Forest","Human"),
   perc1992=c(83, 17),
   perc2006=c(45, 55)
   )
 
+#funzione per fare plot in ggplot: ggplot
+# aesthetics (aes) definisce estetica del grafico -> asse x, y e colori -> richiamano colonne della tabella
+#dopo funzione definisce tipo di grafico da usare -> geom_bar usa barre (istogrammi), altrimenti _point, ecc
+#ogni pezzo aggiunto in sequenza alla funzione da "+"
+
+#fill definisce colore interno delle barre
+p1 <- ggplot(tabout, aes(x=class, y=perc1992, color=class)) + 
+      geom_bar(stat="identity", fill="white") + 
+      ylim(c(0,100)) + #limiti
+      theme(legend.position="none") #nasconde legenda
+
+#facciamo per 2006
+
+p2 <- ggplot(tabout, aes(x=class, y=perc2006, color=class)) + 
+      geom_bar(stat="identity", fill="white") + 
+      ylim(c(0,100)) +
+      theme(legend.position="none") #theme_minimal toglie lo sfondo grigio tipico di ggplot, theme_dark mette sfondo scuro
+
+p1 + p2 #patchwork mette insieme i due grafici
+#l'asse delle y è diverso
+
+#abbiamo aggiunto ylim per indicare limiti asse y uguale ad entrambe
+#legenda ripetuta, la rimuoviamo dal primo grafico
