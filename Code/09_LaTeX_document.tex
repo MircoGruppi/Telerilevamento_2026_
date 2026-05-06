@@ -1,0 +1,89 @@
+\documentclass[12pt]{article} % definisce tipo di documento
+%Default usa testo carattere dimensione 10 -> con quadre si mette numero punti del carattere
+\usepackage{graphicx} % Required for inserting images -> si possono usare pacchetti esterni
+% Pacchetti richiamati con backslash \ all'inizio, e si aprono e chiudono parentesi graffe
+\usepackage{hyperref} %permette di cliccare su riferimento come se fosse un collegamento -> utile per sommario
+\usepackage{lineno}
+\linenumbers %mette i numeri delle righe
+\usepackage{comment}
+
+\title{Il mio primo documento in LaTeX}
+\author{Mirco Gruppi}
+%\date{}
+%\date{} senza data usa quella del sistema
+
+\begin{document} %sempre seguito da un \end
+
+\maketitle
+
+\tableofcontents %inserisce automaticamente il sommario -> con hyperref manda a capitolo cliccando
+\listoffigures
+%mette lista delle immagini
+
+\section{Introduzione} \label{Intro}
+/label Mette sezioni del documento
+
+label per richiamare nome paragrafo
+
+Con spazio mette in automatico l'indentazione
+
+\noindent 
+/noindent funzione per non mettere indentazione automatica
+
+\smallskip 
+/smallskip aggiunge spazio dopo indentazione
+
+\bigskip 
+/bigskip aggiunge spazio più grande
+
+\section{Metodi}
+In questa tesi è stata utilizzata l'eugazione di Newton, raccolta nell'equazione \ref{eq:Newton}.
+\begin{equation}
+    F=G \times \frac{m_1 \times m_2}{r^2}
+    % \frac fa funzioni mettendo denominatore e numeratore tra parentesi
+    % _ underscore mette il pedice, ^ potenza
+    % \times mette il per "x"
+    % \sqrt mette sotto radice, tra parentesi quadre il numero dell'esponente \sqrt[3] 
+    \label{eq:Newton} %etichetta
+\end{equation}
+\begin{equation}
+    F=G \times \frac{\sqrt{m_1 \times \sqrt[3]{m_2}}}{r^2}
+\end{equation}
+
+Come visto nella sezione \ref{Intro} 
+
+\begin{itemize}
+    \item analisi multivariata
+    \item analisi multitemporale
+\end{itemize}
+
+\begin{enumerate}
+    \item cacio
+    \item pepe
+\end{enumerate}
+
+\section{Risultati}
+Assurdo come sia come in figura \ref{fig:MARINOCAVALLO}
+
+\begin{figure} %immagine spostata per evitare buchi vuoti
+    \centering %centra immagini
+    \includegraphics[width=0.5\linewidth]{Nuovo progetto (1).png} %width moltiplica larghezza
+    \caption{WE LOVE MARINO CAVALLO}
+    \label{fig:MARINOCAVALLO}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.25\linewidth]{ezgif.com-webp-to-png-converter.png}
+    \caption{Zazzingara}
+    \label{fig:zazzingara}
+\end{figure}
+
+\section{Discussione}
+
+%begin{comment}
+    Se devo togliere una parte ma voglio conservarla, basta mettere sotto comment e ti toglie tutta una sezione del testo dal foglio prodotto, ma posso richiamarlo quando voglio
+%end{comment} %si può riportare commentando end comment
+
+
+\end{document}
