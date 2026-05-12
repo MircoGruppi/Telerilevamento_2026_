@@ -1,0 +1,80 @@
+---
+title: "La mia prima presentazione di Quarto"
+author: "Mirco Gruppi"
+format: revealjs
+editor: visual
+---
+
+I titoli su quarto funzionano come Markdown col cancelletto
+
+# Intro
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+
+## Bullets
+
+When you click the **Render** button a document will be generated that includes:
+
+- Content authored with markdown
+- Output from executable code
+
+# Coding
+
+## Code
+
+When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+# How to load `imageRy`
+
+Si può installare `imageRy` via GitHub
+
+```{r}
+library(imageRy)
+```
+
+## Installare `imageRy`
+
+Per installare `imageRy`:
+
+devtools:: installa e lancia pacchetto senza richiamarlo echo=T mostra funzione senza runnarla
+echo=T mostra la funzione oltre a runnarla
+
+```{r, echo=T, eval=F}
+devtools::install_github("ducciorocchini/imageRy")
+```
+
+## Lista files (senza lista, solo funzione)
+
+Lista di files di `imageRy`
+
+```{r, echo=T}
+im.list()
+```
+
+## Importare un'immagine
+
+```{r, echo=T}
+library(terra)
+blett <- im.import("bletterbach.jpg")
+```
+
+# Analisi dati
+
+## Indici
+
+Un potenziale indice riguarda la sottrazione delle prime due bande
+
+```{r, echo=T}
+index <- blett[[1]] - blett[[2]]
+plot(index)
+```
+
+# False evaluation
+
+Se metto eval = F posso mettere la funzione senza che venga eseguita
