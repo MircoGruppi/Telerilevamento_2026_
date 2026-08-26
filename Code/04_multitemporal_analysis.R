@@ -63,6 +63,7 @@ names(ndvi) <- c("02feb","05may","08aug","11nov")
 im.ridgeline(ndvi, scale=2, palette="inferno")
 #separa meno i grafici
 
+pair(ndvi)
 #Scatterplot (di due dati) per mostrare variazione ndvi tra mesi
 plot(ndvi[[1]],ndvi[[2]])
 #Confronto tra Febbraio e Maggio
