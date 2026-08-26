@@ -35,7 +35,7 @@ plot(b2, col=cl) #assegnamo all'oggetto la palette
 cl3 <- colorRampPalette(c("mistyrose2","orchid3", "maroon4"))(3) #con 3 elimina le sfumature
 plot(b2, col=cl3)
 
-#possiamo installare direttamente palette prefatte
+#possiamo installare direttamente palette prefatte -> viridis
 # LO INSTALLIAMO IN CIMA per sapere quali usiamo per tutto il codice
 plot(b2, col=inferno(100)) #numero sfumature è dentro alla parentesi
 
@@ -50,14 +50,14 @@ plot(b2, col=clgr)
 
 par(mfrow=c(1,2)) #1 riga 2 colonne
 plot(b2,col=mako(100))
-plot(b2,col=clg)
+plot(b2,col=clgr)
 
 #dev.off() chiude finestra grafica
 
 ?im.multiframe
 im.multiframe(1,2)
 plot(b2,col=inferno(100))
-plot(b2,col=clg)
+plot(b2,col=clgr)
 
 #05/03/2026
 
