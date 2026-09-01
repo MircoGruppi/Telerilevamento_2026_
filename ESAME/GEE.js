@@ -10,19 +10,38 @@ function maskS2clouds(image) {
 var bands_to_export = ['B2', 'B3', 'B4', 'B8'];
 
 
-var col_2016 = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
+var col_2019 = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
   .filterBounds(geometry)
-  .filterDate('2016-05-01', '2016-08-31')
+  .filterDate('2019-05-01', '2019-08-31')
   .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
   .map(maskS2clouds);
 
-var composite_2016 = col_2016.median().clip(geometry).select(bands_to_export);
+var composite_2019 = col_2019.median().clip(geometry).select(bands_to_export);
 
 Export.image.toDrive({
-  image: composite_2016,
-  description: 'Bologna_2016_bands',
+  image: composite_2019,
+  description: 'Australia_2019_bands',
   folder: 'GEE_exports',
-  fileNamePrefix: 'Bologna_2016_bands',
+  fileNamePrefix: 'Australia_2019_bands',
+  region: geometry,
+  scale: 10,
+  crs: 'EPSG:4326',
+  maxPixels: 1e13
+});
+
+var col_2020 = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
+  .filterBounds(geometry)
+  .filterDate('2020-05-01', '2020-08-31')
+  .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
+  .map(maskS2clouds);
+
+var composite_2020 = col_2020.median().clip(geometry).select(bands_to_export);
+
+Export.image.toDrive({
+  image: composite_2020,
+  description: 'Australia_2020_bands',
+  folder: 'GEE_exports',
+  fileNamePrefix: 'Australia_2020_bands',
   region: geometry,
   scale: 10,
   crs: 'EPSG:4326',
@@ -39,9 +58,9 @@ var composite_2026 = col_2026.median().clip(geometry).select(bands_to_export);
 
 Export.image.toDrive({
   image: composite_2026,
-  description: 'Bologna_2026_bands',
+  description: 'Australia_2026_bands',
   folder: 'GEE_exports',
-  fileNamePrefix: 'Bologna_2026_bands',
+  fileNamePrefix: 'Australia_2026_bands',
   region: geometry,
   scale: 10,
   crs: 'EPSG:4326',
