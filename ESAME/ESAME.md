@@ -8,7 +8,9 @@ Appello d'esame: 07/09/2026
 ## Introduzione
 
 A partire da giugno 2019 fino a febbraio 2020 il sud-est dell'Australia è stata colpita da una serie di incendi boschivi. Il periodo venne nominato l'"__Australian bushfire season__" o anche la "__Black Summer__", data la lunga durata, la quantità di fuochi e un'area di impatto di oltre 24 milioni di ettari. 
-Una delle aree più impattate è la costa attorno al paese di **Mallacoota**, situato al confine tra gli stati di Victoria e New South Wales nella Contea di East Gippsland.
+Una delle aree più impattate è la costa attorno al paese di **Mallacoota**, situato al confine tra gli stati di Victoria e New South Wales nella Contea di East Gippsland. 
+
+<p align="center"> <img width="362" height="512" src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/d0b29b7d197b15eef397cb02e3ec5501c5f4ee7f/ESAME/Immagini/Bushfires.jpg" />
 
 Tramite le immagini satellitari di Sentinel-2, lanciato per il progetto Copernicus, è possibile analizzare gli effetti degli incendi sulla vegetazione, confrontando tre diverse fasi:
 
@@ -18,7 +20,7 @@ Tramite le immagini satellitari di Sentinel-2, lanciato per il progetto Copernic
 
 * Estate 2026: Situazione di recupero attuale, sei anni dopo l'incendio
 
-<img src="ESAME/Immagini/Mallacoota.png" />
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/f50f78fbeb1e4dbde5b684880c1c86fde41ec925/ESAME/Immagini/Mallacoota.png" />
 
 ## Obiettivi
 
