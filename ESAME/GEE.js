@@ -10,19 +10,19 @@ function maskS2clouds(image) {
 var bands_to_export = ['B2', 'B3', 'B4', 'B8'];
 
 
-var col_2019 = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
+var col_2018 = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
   .filterBounds(geometry)
-  .filterDate('2019-05-01', '2019-08-31')
+  .filterDate('2018-05-01', '2018-08-31')
   .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
   .map(maskS2clouds);
 
-var composite_2019 = col_2019.median().clip(geometry).select(bands_to_export);
+var composite_2018 = col_2018.median().clip(geometry).select(bands_to_export);
 
 Export.image.toDrive({
-  image: composite_2019,
-  description: 'Australia_2019_bands',
+  image: composite_2018,
+  description: 'Australia_2018_bands',
   folder: 'GEE_exports',
-  fileNamePrefix: 'Australia_2019_bands',
+  fileNamePrefix: 'Australia_2018_bands',
   region: geometry,
   scale: 10,
   crs: 'EPSG:4326',
