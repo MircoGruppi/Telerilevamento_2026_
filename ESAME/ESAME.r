@@ -55,7 +55,7 @@ im.plotRGB(pre2019, r=4, g=2, b=1, title="2019")
 im.plotRGB(post2020, r=4, g=2, b=1, title="2020")
 im.plotRGB(post2026, r=4, g=2, b=1, title="2026")
 
-#Elimino mare da DVI
+#Elimino mare da DVI   -> NON FUNGE
 coast <- vect("AustraliaCoast.shp")
 
 pre2019 <- clipCoast(pre2019,coast)
