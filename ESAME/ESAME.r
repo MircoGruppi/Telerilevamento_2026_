@@ -25,13 +25,10 @@ clipCoast <- function(img, boundary){
 pre2018 <- rast("Australia_2018_bands.tif") # rast() permette di importare SpatRaster
 post2020 <- rast("Australia_2020_bands.tif")
 post2026 <- rast("Australia_2026_bands.tif")
-pre2018                                     # Mostra bande -> Blu=B2, Verde=B3, Rosso=B4, NIR=B8
-post2020
-post2026
 
 # Mostra layer separati
 
-im.multiframe(3,4) #suddivisione della finestra grafica in 3 righe e 4 colonne
+im.multiframe(3,4) # Suddivisione della finestra grafica in 3 righe e 4 colonne
 
 plot(pre2018[[1]], col = rocket(100), main = "2018, B2") #Mostra valori della prima banda
 plot(pre2018[[2]], col = rocket(100), main = "2018, B3")
@@ -118,7 +115,7 @@ class_2026 <- im.classify(ndvi_2026, seed = 09, num_cluster = 3)
 
 # Assegnazione delle etichette alle 3 classi
 
-levels(class_2018) <- data.frame(value = c(1, 2, 3), label = c("Mare", "Vegetazione", "Suolo nudo"))
+levels(class_2018) <- data.frame(value = c(1, 2, 3), label = c("Mare", "Vegetazione", "Suolo nudo")) # levels assegna valore ad un determinato attributo
 levels(class_2020) <- data.frame(value = c(1, 2, 3), label = c("Mare", "Vegetazione", "Suolo nudo"))
 levels(class_2026) <- data.frame(value = c(1, 2, 3), label = c("Mare", "Vegetazione", "Suolo nudo"))
 
@@ -177,7 +174,7 @@ tabella
 #1 Vegetazione 96.628875  63.62995 95.879389
 #2  Suolo Nudo  3.371125  36.29394  4.075564
 
-# Generazione di istogrammi per il confronto
+# Generazione di grafici a barre per il confronto
 
 p1 <- ggplot(tabella, aes(x = class, y = perc_2018, fill = class)) +              # Creazione del grafico usando il dataset tabella
   geom_bar(stat = "identity") +                                                   # Definizione del tipo di grafico (grafico a barre)                       
