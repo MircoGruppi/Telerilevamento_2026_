@@ -11,14 +11,16 @@ library(patchwork) # Per la combinazione flessibile dei grafici a barre in un'un
 library(viridis)   # Palette di colori ad alta leggibilità
 library(ggridges)  # Grafici a cresta per visualizzare distribuzioni continue
 
-# FUNZIONE CHE IN TEORIA DOVREBBE TAGLIARMI L'IMMAGINE ATTORNO AD UNO SHAPEFILE MA NON FUNZIONA
+# Funzione per tagliare raster usando un vettore
+
 clipCoast <- function(img, boundary){
   img_crop <- crop(img, boundary)
   img_mask <- mask(img_crop, boundary)
   return(img_mask)
   }
 
-#importa raster
+#Importa Raster
+
 pre2018 <- rast("Australia_2018_bands.tif")
 post2020 <- rast("Australia_2020_bands.tif")
 post2026 <- rast("Australia_2026_bands.tif")
@@ -47,18 +49,16 @@ plot(post2026[[4]], col = rocket(100), main = "2026, B8")
 #visualizzazione a colori naturali
 im.multiframe(1,3)
 
-im.plotRGB(pre2018, r=3, g=2, b=1, title = "2018")
-im.plotRGB(post2020, r=3, g=2, b=1, title = "2020")
-im.plotRGB(post2026, r=3, g=2, b=1, title = "2026")
+plotRGB(pre2018, r=3, g=2, b=1, stretch = "lin", main = "2018") #pacchetto Terra
+plotRGB(post2020, r=3, g=2, b=1, stretch = "lin", main = "2020")
+plotRGB(post2026, r=3, g=2, b=1, stretch = "lin", main = "2026")
 
 # nir su red   
-im.plotRGB(pre2018, r=4, g=2, b=1, title = "2018")
-im.plotRGB(post2020, r=4, g=2, b=1, title = "2020")
-im.plotRGB(post2026, r=4, g=2, b=1, title = "2026")
-#CAMBIA TITLE CON MAIN
+plotRGB(pre2018, r=4, g=2, b=1, stretch = "lin", main = "2018")
+plotRGB(post2020, r=4, g=2, b=1, stretch = "lin", main = "2020")
+plotRGB(post2026, r=4, g=2, b=1, stretch = "lin", main = "2026")
 
-
-#Elimino mare da DVI   -> NON FUNGE
+#Elimino mare da DVI
 coast <- vect("AustraliaCosta.shp")
 
 pre2018 <- clipCoast(pre2018,coast)
@@ -112,6 +112,8 @@ levels(class_2026) <- data.frame(value = c(1, 2, 3), label = c("Mare", "Vegetazi
 
 col_classes <- c("Mare" = "#ffffff","Vegetazione" = "#09622A", "Suolo nudo"="#E8C761")
 
+#col_classes <- c("1" = "#ffffff","2" = "#09622A", "3"="#E8C761")
+
 plot(class_2018, col=col_classes, main="2018", legend=FALSE)
 plot(class_2020, col=col_classes, main="2020", legend=FALSE)
 plot(class_2026, col=col_classes, main="2026", legend=FALSE)
@@ -128,16 +130,53 @@ f_2018 <- freq(class_2018)
 f_2020 <- freq(class_2020)
 f_2026 <- freq(class_2026)
 
-perc_2018 <- (f_2018$count / ncell(class_2018)) * 100
-perc_2020 <- (f_2020$count / ncell(class_2020)) * 100
-perc_2026 <- (f_2026$count / ncell(class_2026)) * 100
+#Eliminiamo la classe del Mare
+
+f_2018 <- f_2018[-1, ]
+f_2020 <- f_2020[-1, ]
+f_2026 <- f_2026[-1, ]
+
+perc_2018 <- (f_2018$count / sum(f_2018[,3])) * 100
+perc_2020 <- (f_2020$count / sum(f_2018[,3])) * 100
+perc_2026 <- (f_2026$count / sum(f_2018[,3])) * 100
 
 
 tabella <- data.frame( 
-  class = c("Mare", "Vegetazione", "Suolo nudo"),
+  class = c("Vegetazione", "Suolo nudo"),
   Pre_2018 = perc_2018 ,
   Post_2020 = perc_2020 ,
   Post_2026 = perc_2026 ,
 )
 
 tabella
+
+#        class  Pre_2018 Post_2020 Post_2026
+#1 Vegetazione 96.628875  63.62995 95.879389
+#2  Suolo Nudo  3.371125  36.29394  4.075564
+
+p1 <- ggplot(tabella, aes(x = class, y = perc_2018, fill = class)) +              #creazione del grafico usando il dataset tabella
+  geom_bar(stat = "identity") +                                                  #definizione del tipo di grafico (grafico a barre)                       
+  ylim(c(0, 100)) +                                                              #limiti asse y
+  scale_fill_manual(values = labels) +                                           #impostazione manuale dei colori delle barre
+  labs(title = "Copertura Pre incendio", x = "Classe", y = "Percentuale (%)") + #definizione etichette del grafico
+  theme(legend.position = "none")                                                #elimina la legenda del grafico
+
+p2 <- ggplot(tabella, aes(x = class, y = perc_2020, fill = class)) +              
+  geom_bar(stat = "identity") +                                                                         
+  ylim(c(0, 100)) +                                                              
+  scale_fill_manual(values = labels) +                                           
+  labs(title = "Copertura Post incendio (2020)", x = "Classe", y = "Percentuale (%)") + 
+  theme(legend.position = "none") 
+
+
+p3 <- ggplot(tabella, aes(x = class, y = perc_2026, fill = class)) +              
+  geom_bar(stat = "identity") +                                                                         
+  ylim(c(0, 100)) +                                                              
+  scale_fill_manual(values = labels) +                                           
+  labs(title = "Copertura Post incendio (2026)", x = "Classe", y = "Percentuale (%)") + 
+  theme(legend.position = "none") 
+
+#visualizzazione dei grafici 
+
+p1 + p2 + p3
+
