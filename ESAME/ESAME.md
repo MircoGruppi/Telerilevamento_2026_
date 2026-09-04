@@ -37,49 +37,96 @@ Le immagini sono state acquisite dal portale web di [Google Earth Engine](https:
 
 ## Analisi tramite Software R
 
-### Impostazione della working directory
+#### Impostazione della working directory
 
 ```r
-
 setwd("~/Desktop/Università/Telerilevamento") 
 getwd()       #verifica della working directory
 list.files()  #lista dei file all'interno della working directory
-
 ```
 
-### Caricamento dei pacchetti che verranno utilizzati nello studio.
+#### Caricamento dei pacchetti che verranno utilizzati nello studio.
 
 ```r
-
 library(terra)     # Per la gestione di dati raster. 
 library(imageRy)   # Gestione, analisi e visualizzazione multiframe di immagini raster
 library(ggplot2)   # Creazione di grafici personalizzati
 library(patchwork) # Per la combinazione flessibile dei grafici a barre in un'unica interfaccia;
 library(viridis)   # Palette di colori ad alta leggibilità
 library(ggridges)  # Grafici a cresta per visualizzare distribuzioni continue
-
 ```
 
-### Scrittura di una funzione da richiamare successivamente
+#### Scrittura di una funzione da richiamare successivamente
 
 ```r
-
 clipCoast <- function(img, boundary){
   img_crop <- crop(img, boundary)       # Ritaglia il raster all'estensione dello shapefile
   img_mask <- mask(img_crop, boundary)  # Mantiene i pixel interni al perimetro dello shapefile
   return(img_mask)
   }
-
 ```
 
 ### Importazione dati raster da Sentinel-2
 
 ```r
-
 pre2018 <- rast("Australia_2018_bands.tif") # rast() permette di importare SpatRaster
 post2020 <- rast("Australia_2020_bands.tif")
 post2026 <- rast("Australia_2026_bands.tif")
-
 ```
 
 ## Visualizzazione
+
+### Visualizzazione delle singole bande del visibile (B2, B3, B4) e del vicino infrarosso (B8)
+
+```r
+im.multiframe(3,4) # Suddivisione della finestra grafica in 3 righe e 4 colonne
+
+plot(pre2018[[1]], col = rocket(100), main = "2018, B2") #Mostra valori della prima banda
+plot(pre2018[[2]], col = rocket(100), main = "2018, B3")
+plot(pre2018[[3]], col = rocket(100), main = "2018, B4")
+plot(pre2018[[4]], col = rocket(100), main = "2018, B8")
+
+plot(post2020[[1]], col = rocket(100), main = "2020, B2")
+plot(post2020[[2]], col = rocket(100), main = "2020, B3")
+plot(post2020[[3]], col = rocket(100), main = "2020, B4")
+plot(post2020[[4]], col = rocket(100), main = "2020, B8")
+
+plot(post2026[[1]], col = rocket(100), main = "2026, B2")
+plot(post2026[[2]], col = rocket(100), main = "2026, B3")
+plot(post2026[[3]], col = rocket(100), main = "2026, B4")
+plot(post2026[[4]], col = rocket(100), main = "2026, B8")
+```
+
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/4e48e881e38bd8aade164a83667b9d9253733057/ESAME/Immagini/Bande.png" />
+
+La visualizzazione separata delle bande del visibile (blu, verde e rosso) e della banda del vicino infrarosso (NIR) consente di comparare la risposta spettrale delle diverse superfici nelle tre fasi analizzate. Osservando la banda del NIR, sensibile alla presenza e allo stato di salute della vegetazione, si nota una diminuzione della riflettanza in seguito agli incendi, e un recupero sei anni dopo.
+
+### Composizione RGB a colori naturali
+
+Usando la funzione plotRGB del pacchetto Terra possiamo sovrapporre le bande del visibile producendo immagini a colori naturali. 
+
+```r
+im.multiframe(1,3)
+
+plotRGB(pre2018, r=3, g=2, b=1, stretch = "lin", main = "2018")  # pacchetto Terra
+plotRGB(post2020, r=3, g=2, b=1, stretch = "lin", main = "2020") # Stretch allarga i valori centrali per aumentare contrasto
+plotRGB(post2026, r=3, g=2, b=1, stretch = "lin", main = "2026")
+```
+
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/4e48e881e38bd8aade164a83667b9d9253733057/ESAME/Immagini/ColoriNaturali.png" />
+
+La composizione RGB a colori naturali permette di effettuare un primo confronto qualitativo tra le condizioni dell'area di studio pre e post incendio, evidenziando le variazioni della copertura vegetale e le aree percorse dal fuoco, che appaiono con tonalità più scure. A sei anni dall'evento, si osserva un ripristino quasi completo della vegetazione.
+
+### Composizione RGB a falsi colori
+
+Sostituendo il NIR al posto della banda del rosso, si evidenziano le zone di vegetazione. Queste immagini permettono di osservare lo stato di salute della vegetazione, poichè una maggiore riflessione del NIR indica una vegetazione sana che apparità con un rosso più intenso, rispetto invece a una vegetazione danneggiata e sottoposta a stress.
+
+```r
+lotRGB(pre2018, r=4, g=2, b=1, stretch = "lin", main = "2018")   # Metto banda B8 sul rosso
+plotRGB(post2020, r=4, g=2, b=1, stretch = "lin", main = "2020")  # Permette di mettere in evidenza la riflettanza della vegetazione
+plotRGB(post2026, r=4, g=2, b=1, stretch = "lin", main = "2026")
+```
+
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/4e48e881e38bd8aade164a83667b9d9253733057/ESAME/Immagini/NIRsuRed.png" />
+
+Le immagini prodotte permettono di vedere con maggiore chiarezza le aree colpite dagli incendi, poi ripristinate nell'ultima fase. Si può anche osservare come nel 2018 alcune aree appaiano già danneggiate, a causa di incendi avvenuti negli anni precedenti. Nel 2026 si può apprezzare il reucpero vegetazionale pure di queste zone.
