@@ -225,7 +225,7 @@ plot(ndvi_diff3, col = rocket(100), main = "2018 - 2026")
 
 <img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/9d08dadb3b9f9f35c361b26a0e6b758ee0544fb3/ESAME/Immagini/NDVIdiff.png" />
 
-Nella prima immagine si può vedere facilmente la perdita di vegetazione causata dagli incendi, evidenziata dalle aree di colore scuro. Nel periodo successivo invece questa perdita è stata invertita, e le stesse aree hanno un colore chiaro, indicando il ripristino vegetazionale. L'ultima immagine mostra invece il cambiamento complessivo dal 2018 al periodo attuale. Si può vedere come il recupero della copertura forestale è stato quasi completo, con pure del miglioramento nelle aree colpite prima del 2018. Tuttavia, a nord-ovest si possono notare numerose aree quasi puntiformi in cui è avvenuta invece una perdita di vegetazione. Questo degrado non sembra quindi essere conseguenza degli incendi del 2019-2020, ma causati probabilmente da una successiva azione dell'uomo.
+Nella prima immagine si può vedere facilmente la perdita di vegetazione causata dagli incendi, evidenziata dalle aree di colore scuro. Nel periodo successivo invece questa perdita è stata invertita, e le stesse aree hanno un colore chiaro, indicando il ripristino vegetazionale. L'ultima immagine mostra invece il cambiamento complessivo dal 2018 al periodo attuale. Si può vedere come il recupero della copertura forestale è stato quasi completo, con pure del miglioramento nelle aree colpite prima del 2018. Tuttavia, a nord-ovest si possono notare numerose aree quasi puntiformi in cui è avvenuta invece una perdita di vegetazione.
 
 ## Classificazione
 
@@ -334,7 +334,7 @@ p2 <- ggplot(tabella, aes(x = class, y = perc_2020, fill = class)) +
   labs(title = "Copertura Post incendio (2020)", x = "Classe", y = "Percentuale (%)") + 
   theme(legend.position = "none")
 
-p3 <- ggplot(tabella, aes(x = class, y = perc_2026, fill = class)) +              # aes definisce estetica degli assi e i colori
+p3 <- ggplot(tabella, aes(x = class, y = perc_2026, fill = class)) +              # aes definisce estetica di assi e colori
   geom_bar(stat = "identity") +
   ylim(c(0, 100)) +
   scale_fill_manual(values = labels) +
@@ -349,3 +349,10 @@ p1 + p2 + p3 # Pacchetto patchwork permette di unire grafici
 <img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/f1c4c64dcb60ff87f2e74c83fa2e0ad79b2b5325/ESAME/Immagini/GrafBarre.png" />
 
 ## Conclusioni
+
+L'analisi condotta tramite telerilevamento satellitare multitemporale ha permesso di quantificare e confrontare il danno ambientale causato dagli incendi nell'area di studio e il processo di recupero negli anni successivi. Il confronto multitemporale degli indici di NDVI e DVI hanno mostrato una perdita di vegetazione del 30% a causa degli incendi del 2019-2020, socceduto da un quasi totale ripristino nel 2026. L'anaisi qualitativa delle immagini suggerisce però che il recupero incompleto non è dovuto da una mancata rigenerazione della copertura vegetale in seguito all'incendio, ma da separati eventi. Infatti nella maggiorparte delle aree colpite si osserva il pieno ritorno della foresta, comprese quelle danneggiate da incendi precedenti alla _Black Summer_. La vegetazione dovrebbe quindi aver raggiunto uno stato di salute perfino maggiore della condizione iniziale, ma questo recupero è stato controbilanciato da un'aggiuntiva scomparsa di copertura forestale. A differenza dei danni da incendio, queste aree non sono estese ma appaiono come sparsi punti in tutta la zona a nord-est, all'incirca in corrispondenza con la foresta statale di Yambulla.
+Una vista più ravvicinata dell'area mostra che la causa di tutto ciò è la deforestazione per mano dell'uomo, tramite il taglio degli alberi per l'industria del legname. La _Forestry Corporation of NSW_ è stata infatti denunciata numerose volte per il sovrasfruttamento delle risorse forestali, non curandosi dei danni causati dalla _Black Summer_, causando un'ulteriore perdita di habitat per specie minacciate dopo agli incendi.
+In conclusione, dopo sei anni dalla fine degli incendi la vegetazione avrebbe potuto recuperare completamente la copertura persa tra il 2019 e il 2020, se non fosse stato per una successiva deforestazione causata dall'attività umana.
+
+## Sitografia
+
