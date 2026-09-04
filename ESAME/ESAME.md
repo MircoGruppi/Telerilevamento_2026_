@@ -103,7 +103,7 @@ La visualizzazione separata delle bande del visibile (blu, verde e rosso) e dell
 
 ### Composizione RGB a colori naturali
 
-Usando la funzione plotRGB del pacchetto Terra possiamo sovrapporre le bande del visibile producendo immagini a colori naturali. 
+Usando la funzione `plotRGB` del pacchetto `Terra` possiamo sovrapporre le bande del visibile producendo immagini a colori naturali. 
 
 ```r
 im.multiframe(1,3)
@@ -123,10 +123,71 @@ Sostituendo il NIR al posto della banda del rosso, si evidenziano le zone di veg
 
 ```r
 lotRGB(pre2018, r=4, g=2, b=1, stretch = "lin", main = "2018")   # Metto banda B8 sul rosso
-plotRGB(post2020, r=4, g=2, b=1, stretch = "lin", main = "2020")  # Permette di mettere in evidenza la riflettanza della vegetazione
+plotRGB(post2020, r=4, g=2, b=1, stretch = "lin", main = "2020")
 plotRGB(post2026, r=4, g=2, b=1, stretch = "lin", main = "2026")
 ```
 
 <img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/4e48e881e38bd8aade164a83667b9d9253733057/ESAME/Immagini/NIRsuRed.png" />
 
 Le immagini prodotte permettono di vedere con maggiore chiarezza le aree colpite dagli incendi, poi ripristinate nell'ultima fase. Si può anche osservare come nel 2018 alcune aree appaiano già danneggiate, a causa di incendi avvenuti negli anni precedenti. Nel 2026 si può apprezzare il reucpero vegetazionale pure di queste zone.
+
+## Analisi degli indici spettrali
+
+### Analisi DVI
+
+Il **Difference Vegetation Index (DVI)** è un indice di vegetazione ottenuto come differenza tra la riflettanza della banda del vicino infrarosso (NIR) e quella della banda del rosso (Red):
+
+$DVI = NIR - Red$
+
+Le piante, grazie ai pigmenti fotosintetici, assorbono nel visibile gran parte della radiazione nel rosso, mentre riflette il vicino infrarosso a causa di particolarità nella struttura fogliare. Di conseguenza l'indice DVI è usato per valutare la presenza di vegetazione: valori elevati di DVI indicano una vegetazione vigorosa e con elevata attività fotosintetica. È un indice non normalizzato, ma fornisce informazioni comparative, per evidenziare la perdita di vegetazione causata dal fuoco.
+
+Dato che l'analisi è incentrata sui danni causati dagli incendi sulla vegetazione terrestre, le informazioni della superficie del mare non sono d'interesse, e possono essere rimosse usando la funzione scritta in precedenza. Importanto uno shapefile come SpatVector è possibile ritagliare il file raster, rimuovendo così i pixel della superficie marina.
+
+```r
+coast <- vect("AustraliaCosta.shp") # importa shapefile come SpatVector
+
+pre2018 <- clipCoast(pre2018,coast)
+post2020 <- clipCoast(post2020,coast)
+post2026 <- clipCoast(post2026,coast)
+```
+
+Procedo a calcolare il DVI usando la funzione `im.dvi` di `imageRy`
+
+```r
+dvi_2018 <- im.dvi(pre2018, 4, 3)    # Funzione di imageRy
+dvi_2020 <- im.dvi(post2020, 4, 3)   # Differenza di riflettanza tra banda NIR (4) e Rossa (3), mostra salute vegetazione
+dvi_2026 <- im.dvi(post2026, 4, 3)
+
+plot(dvi_2018, col = magma(100), main = "DVI 2018")
+plot(dvi_2020, col = magma(100), main = "DVI 2020")
+plot(dvi_2026, col = magma(100), main = "DVI 2026")
+```
+
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/5d7338ddbba7699bbce1c6d163c1b279e528e547/ESAME/Immagini/DVI.png" />
+
+Le aree interessate dall'incendio corrispondono ai valori più bassi di DVI, mostrando una forte diminuizione della biomassa vegetale fotosintetica. Dopo sei anni si può notare invece il recupero della copertura forestale.
+
+Le aree lagunari, essendo all'interno delle linee di costa, non sono state tagliate dalla funzione `clipCoast` e vengono mostrate tramite valori vicini allo 0. Ciò avviene perchè l'acqua ha una forte assorbanza nel NIR.
+
+### Analisi NDVI
+
+Il Normalized Difference Vegetation Index (NDVI) è uno degli indici di vegetazione più utilizzati nell'ambito del telerilevamento per valutare lo stato e il vigore della copertura vegetale. Come per il DVI, si basa sulle caratteristiche spettrali della vegetazione, che assorbe la radiazione nella banda del rosso e riflette invece le radiazioni nel vicino infrarosso. A differenza del DVI, però, l'NDVI è un indice normalizzato che assume valori compresi tra -1 e +1.
+
+**$NDVI = \frac{NIR - Red}{NIR + Red}$**
+
+* Valori prossimi a +1 indicano una vegetazione densa, sana e caratterizzata da elevata attività fotosintetica
+* Valori intorno allo 0 sono associati a vegetazione rada, danneggiata o a suoli privi di vegetazione
+* Valori prossimi a -1 indicano superfici come i corpi idrici
+
+```r
+ndvi_2018 <- im.ndvi(pre2018, 4, 3) # DVI(somma banda NRI e visibile (rossa)
+ndvi_2020 <- im.ndvi(post2020, 4, 3)
+ndvi_2026 <- im.ndvi(post2026, 4, 3)
+
+plot(ndvi_2018, col = inferno(100), main = "NDVI 2018")
+plot(ndvi_2020, col = inferno(100), main = "NDVI 2020")
+plot(ndvi_2026, col = inferno(100), main = "NDVI 2026")
+```
+
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/5d7338ddbba7699bbce1c6d163c1b279e528e547/ESAME/Immagini/NDVI.png" />
+
