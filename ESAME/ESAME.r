@@ -59,7 +59,7 @@ plotRGB(pre2018, r=4, g=2, b=1, stretch = "lin", main = "2018")   # Metto banda 
 plotRGB(post2020, r=4, g=2, b=1, stretch = "lin", main = "2020")  # Permette di mettere in evidenza la riflettanza della vegetazione
 plotRGB(post2026, r=4, g=2, b=1, stretch = "lin", main = "2026")
 
-#Elimino mare da DVI
+# Eliminare il Mare dal raster
 
 coast <- vect("AustraliaCosta.shp") # importa shapefile come SpatVector
 
@@ -77,7 +77,7 @@ plot(dvi_2018, col = magma(100), main = "DVI 2018")
 plot(dvi_2020, col = magma(100), main = "DVI 2020")
 plot(dvi_2026, col = magma(100), main = "DVI 2026")
 
-#N DVI Normalized difference vegetation index -> standardizzato per diverse risoluzioni radiometriche -> range -1 / +1
+# NDVI Normalized difference vegetation index -> standardizzato per diverse risoluzioni radiometriche -> range -1 / +1
 
 ndvi_2018 <- im.ndvi(pre2018, 4, 3) # DVI(somma banda NRI e visibile (rossa)
 ndvi_2020 <- im.ndvi(post2020, 4, 3)
@@ -87,13 +87,13 @@ plot(ndvi_2018, col = inferno(100), main = "NDVI 2018")
 plot(ndvi_2020, col = inferno(100), main = "NDVI 2020")
 plot(ndvi_2026, col = inferno(100), main = "NDVI 2026")
 
-#Analisi multitemporale della distribuzione dell'NDVI mediante ridgeline plot
+# Analisi multitemporale della densità di distribuzione dell'NDVI mediante ridgeline plot
 
-stack_ndvi <- c(ndvi_2018, ndvi_2020, ndvi_2026)               # Concatena più vettori
-names(stack_ndvi) <- c("NDVI 2018", "NDVI 2020", "NDVI 2026")  # Assegna nomi agli elementi dei vettori
-im.ridgeline(stack_ndvi, scale = 1, palette = "plasma") 
+stack_ndvi <- c(ndvi_2018, ndvi_2020, ndvi_2026)
+names(stack_ndvi) <- c("NDVI 2018", "NDVI 2020", "NDVI 2026")
+im.ridgeline(stack_ndvi, scale = 1, palette = "plasma")
 
-#Analisi temporale tramite differenze dell'NDVI
+# Analisi temporale tramite differenze dell'NDVI
 
 dev.off() #chiude finestra grafica
 
