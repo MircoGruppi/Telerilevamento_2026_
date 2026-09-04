@@ -292,8 +292,8 @@ f_2026 <- f_2026[-1, ]
 Procediamo con il calcolo delle percentuali delle classi rimanenti
 
 ```r
-perc_2018 <- (f_2018$count / sum(f_2018[,3])) * 100  # Proporzione: Prende conteggi e divide per somma pixel terza colonna (Vegetazione + Suolo nudo)
-perc_2020 <- (f_2020$count / sum(f_2018[,3])) * 100  # Percentuale: Moltiplica prop per 100
+perc_2018 <- (f_2018$count / sum(f_2018[,3])) * 100
+perc_2020 <- (f_2020$count / sum(f_2018[,3])) * 100
 perc_2026 <- (f_2026$count / sum(f_2018[,3])) * 100
 
 # Creazione tabella riassuntiva
@@ -310,7 +310,42 @@ tabella <- data.frame(
 tabella
 ```
 
-| class | Pre_2018 | Post_2020 | Post_2026 |
+| Classi | Pre 2018 | Post 2020 | Post 2026 |
 | :--- | :---: | :---: | :---: | 
-| Vegetazione | 96.628875  | 63.62995 | 95.879389 |
-| Suolo Nudo  | 3.371125  | 36.29394 | 4.075564 |
+| Vegetazione | 96.63%  | 63.63% | 95.88% |
+| Suolo Nudo  | 3.37%  | 36.29% | 4.076% |
+
+Dai dati si può vedere che in seguito agli incendi del 2019-2020 la vegetazione, da una condizione originaria di elevata copertura, ha subito un calo del 30%. Nel 2026 è riuscita a recuperare il danno ritornando ad un valore di 95%, non raggiungendo di poco il valore di partenza.
+
+### Generazione di grafici a barre per il confronto delle percentuali
+
+```r
+p1 <- ggplot(tabella, aes(x = class, y = perc_2018, fill = class)) +              # Creazione del grafico usando il dataset tabella
+  geom_bar(stat = "identity") +                                                   # Definizione del tipo di grafico
+  ylim(c(0, 100)) +                                                               # Limiti asse y
+  scale_fill_manual(values = labels) +                                            # Impostazione manuale dei colori delle barre
+  labs(title = "Copertura Pre incendio", x = "Classe", y = "Percentuale (%)") +   # Definizione etichette del grafico
+  theme(legend.position = "none")                                                 # Elimina la legenda del grafico
+
+p2 <- ggplot(tabella, aes(x = class, y = perc_2020, fill = class)) +
+  geom_bar(stat = "identity") +                                                                         
+  ylim(c(0, 100)) +                                                              
+  scale_fill_manual(values = labels) +                                           
+  labs(title = "Copertura Post incendio (2020)", x = "Classe", y = "Percentuale (%)") + 
+  theme(legend.position = "none")
+
+p3 <- ggplot(tabella, aes(x = class, y = perc_2026, fill = class)) +              # aes definisce estetica degli assi e i colori
+  geom_bar(stat = "identity") +
+  ylim(c(0, 100)) +
+  scale_fill_manual(values = labels) +
+  labs(title = "Copertura Post incendio (2026)", x = "Classe", y = "Percentuale (%)") + 
+  theme(legend.position = "none") 
+
+# Visualizzazione dei grafici 
+
+p1 + p2 + p3 # Pacchetto patchwork permette di unire grafici
+```
+
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/f1c4c64dcb60ff87f2e74c83fa2e0ad79b2b5325/ESAME/Immagini/GrafBarre.png" />
+
+## Conclusioni
