@@ -7,8 +7,8 @@ Appello d'esame: 07/09/2026
 
 ## Introduzione
 
-A partire da giugno 2019 fino a febbraio 2020 il sud-est dell'Australia è stata colpita da una serie di incendi boschivi. Il periodo venne nominato l'"__Australian bushfire season__" o anche la "__Black Summer__", data la lunga durata, la quantità di fuochi e un'area di impatto di oltre 24 milioni di ettari. 
-Una delle aree più impattate è la costa attorno al paese di **Mallacoota**, situato al confine tra gli stati di Victoria e New South Wales nella Contea di East Gippsland. 
+A partire da giugno 2019 fino a febbraio 2020 il sud-est dell'Australia è stata colpita da una serie di incendi boschivi. Il periodo è stato nominato l'"__Australian bushfire season__" o "__Black Summer__", data la lunga durata, la quantità di fuochi e un'area di impatto di oltre 24 milioni di ettari. 
+Una delle aree più impattate è la costa attorno al paese di **Mallacoota**, situato al confine tra gli stati di Victoria e New South Wales nella Contea di East Gippsland. Qui numerose aree protette sono state interessate dai fuochi, tra cui dei parchi nazionali. É importante quindi studiare gli impatti di questa serie di incendi e capire come la vegetazione ha recuperato nel tempo.
 
 <p align="center"> <img width="362" height="512" src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/d0b29b7d197b15eef397cb02e3ec5501c5f4ee7f/ESAME/Immagini/Bushfires.jpg" />
 
@@ -28,20 +28,58 @@ L'obiettivo è valutare gli impatti dell'incendio sulla vegetazione sia con un'a
 * DVI: Difference Vegetation Index 
 * NDVI: Normalized Difference Vegetation Index
 
-L'analisi multitemporale invece permette di valutare la resilienza dell'ecosistema e il recupero vegetazionale dopo sei anni.
+L'analisi multitemporale invece permette di valutare il recupero vegetazionale dopo sei anni.
 
 ## Metodologia
 
 ### Acquisizione dati
-Le immagini sono state acquisite dal portale web di [Google Earth Engine](https://earthengine.google.com/), selezionando l'area colpita dall'incendio. Le immagini sono state selezionate nello stesso periodo stagionale per minimizzare gli effetti fenologici. 
+Le immagini sono state acquisite dal portale web di [Google Earth Engine](https://earthengine.google.com/), selezionando l'area colpita dall'incendio. Le immagini sono state selezionate nello stesso periodo stagionale (1/05 - 31/05) per minimizzare gli effetti fenologici. 
 
-### Analisi tramite Software R
+## Analisi tramite Software R
 
-#### Impostazione della working directory
+### Impostazione della working directory
 
 ```r
+
 setwd("~/Desktop/Università/Telerilevamento") 
 getwd()       #verifica della working directory
 list.files()  #lista dei file all'interno della working directory
+
 ```
-#### Caricamento dei pacchetti che verranno utilizzati nello studio.
+
+### Caricamento dei pacchetti che verranno utilizzati nello studio.
+
+```r
+
+library(terra)     # Per la gestione di dati raster. 
+library(imageRy)   # Gestione, analisi e visualizzazione multiframe di immagini raster
+library(ggplot2)   # Creazione di grafici personalizzati
+library(patchwork) # Per la combinazione flessibile dei grafici a barre in un'unica interfaccia;
+library(viridis)   # Palette di colori ad alta leggibilità
+library(ggridges)  # Grafici a cresta per visualizzare distribuzioni continue
+
+```
+
+### Scrittura di una funzione da richiamare successivamente
+
+```r
+
+clipCoast <- function(img, boundary){
+  img_crop <- crop(img, boundary)       # Ritaglia il raster all'estensione dello shapefile
+  img_mask <- mask(img_crop, boundary)  # Mantiene i pixel interni al perimetro dello shapefile
+  return(img_mask)
+  }
+
+```
+
+### Importazione dati raster da Sentinel-2
+
+```r
+
+pre2018 <- rast("Australia_2018_bands.tif") # rast() permette di importare SpatRaster
+post2020 <- rast("Australia_2020_bands.tif")
+post2026 <- rast("Australia_2026_bands.tif")
+
+```
+
+## Visualizzazione
