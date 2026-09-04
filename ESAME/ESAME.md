@@ -64,7 +64,7 @@ clipCoast <- function(img, boundary){
   }
 ```
 
-### Importazione dati raster da Sentinel-2
+#### Importazione dati raster da Sentinel-2
 
 ```r
 pre2018 <- rast("Australia_2018_bands.tif") # rast() permette di importare SpatRaster
@@ -139,7 +139,7 @@ $DVI = NIR - Red$
 
 Le piante, grazie ai pigmenti fotosintetici, assorbono nel visibile gran parte della radiazione nel rosso, mentre riflette il vicino infrarosso a causa di particolarità nella struttura fogliare. Di conseguenza l'indice DVI è usato per valutare la presenza di vegetazione: valori elevati di DVI indicano una vegetazione vigorosa e con elevata attività fotosintetica. È un indice non normalizzato, ma fornisce informazioni comparative, per evidenziare la perdita di vegetazione causata dal fuoco.
 
-Dato che l'analisi è incentrata sui danni causati dagli incendi sulla vegetazione terrestre, le informazioni della superficie del mare non sono d'interesse, e possono essere rimosse usando la funzione scritta in precedenza. Importanto uno shapefile come SpatVector è possibile ritagliare il file raster, rimuovendo così i pixel della superficie marina.
+Dato che l'analisi è incentrata sui danni causati dagli incendi sulla vegetazione terrestre, le informazioni della superficie del mare non sono d'interesse, e possono essere rimosse usando la funzione scritta in precedenza. Importando uno shapefile come SpatVector è possibile ritagliare il file raster, rimuovendo così i pixel della superficie marina.
 
 ```r
 coast <- vect("AustraliaCosta.shp") # importa shapefile come SpatVector
@@ -226,4 +226,50 @@ plot(ndvi_diff3, col = rocket(100), main = "2018 - 2026")
 <img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/9d08dadb3b9f9f35c361b26a0e6b758ee0544fb3/ESAME/Immagini/NDVIdiff.png" />
 
 Nella prima immagine si può vedere facilmente la perdita di vegetazione causata dagli incendi, evidenziata dalle aree di colore scuro. Nel periodo successivo invece questa perdita è stata invertita, e le stesse aree hanno un colore chiaro, indicando il ripristino vegetazionale. L'ultima immagine mostra invece il cambiamento complessivo dal 2018 al periodo attuale. Si può vedere come il recupero della copertura forestale è stato quasi completo, con pure del miglioramento nelle aree colpite prima del 2018. Tuttavia, a nord-ovest si possono notare numerose aree quasi puntiformi in cui è avvenuta invece una perdita di vegetazione. Questo degrado non sembra quindi essere conseguenza degli incendi del 2019-2020, ma causati probabilmente da una successiva azione dell'uomo.
+
+## Classificazione
+
+### Classificazione non supervisionata
+
+La classificazione non supervisionata permette di raggruppare i pixel delle immagini NDVI in classi omogenee, stabilendo la frequenza dei pixel della copertura vegetale e delle aree impattate dai fuochi. 
+
+```r
+class_2018 <- im.classify(ndvi_2018, seed = 96, num_cluster = 3) # seed indica una delle iterazioni possibili
+class_2020 <- im.classify(ndvi_2020, seed = 20, num_cluster = 3) 
+class_2026 <- im.classify(ndvi_2026, seed = 09, num_cluster = 3)
+```
+
+<p align="center"> <img width="768" height="418"  src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/8016ec049bb2b96c607a1678120ad4eacaeedf01/ESAME/Immagini/Cluster.png" />
+
+Indicando tre cluster, vengono individuate come classi la vegetazione, le aree a suolo nudo e le lagune. Quest'ultima classe non è veramente d'interesse per questo studio, e per questo possiamo rimuoverla dalla visualizzazione, colorandola di bianco in modo da mimetizzarla con il mare, che è stato tagliato dal raster usando la funzione `clipCoast`, e creando una legenda che mostra solo le altre due classi.
+
+```r
+# Assegnazione delle etichette alle 3 classi
+
+levels(class_2018) <- data.frame(value = c(1, 2, 3), label = c("Laguna", "Vegetazione", "Suolo nudo"))
+levels(class_2020) <- data.frame(value = c(1, 2, 3), label = c("Laguna", "Vegetazione", "Suolo nudo"))
+levels(class_2026) <- data.frame(value = c(1, 2, 3), label = c("Laguna", "Vegetazione", "Suolo nudo"))
+
+# Assegnazione colori personalizzati alle 3 classi
+
+col_classes <- c("Laguna" = "#ffffff","Vegetazione" = "#09622A", "Suolo nudo"="#E8C761")
+
+# Visualizzazione delle classificazioni
+
+plot(class_2018, col=col_classes, main="2018", legend=FALSE) # legend=FALSE non mostra la legenda
+plot(class_2020, col=col_classes, main="2020", legend=FALSE)
+plot(class_2026, col=col_classes, main="2026", legend=FALSE)
+
+# Creazione Legenda
+
+labels <- c("Vegetazione" = "#09622A", "Suolo nudo"="#E8C761") # Colori per due cluster -> escluso Laguna
+
+legend("bottomleft", 
+       legend = names(labels), 
+       fill = labels,  # Determina colori in base a palette definita
+       bg = "white",
+       xpd = TRUE)     # Può essere disegnata fuori dall'interfaccia grafica
+```
+
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/8016ec049bb2b96c607a1678120ad4eacaeedf01/ESAME/Immagini/Classification.png" />
 
