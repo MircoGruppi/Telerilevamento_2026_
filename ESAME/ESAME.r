@@ -184,18 +184,18 @@ p1 <- ggplot(tabella, aes(x = class, y = perc_2018, fill = class)) +            
   theme(legend.position = "none")                                                 # Elimina la legenda del grafico
 
 p2 <- ggplot(tabella, aes(x = class, y = perc_2020, fill = class)) +              # Funzione di ggplot
-  geom_bar(stat = "identity") +                                                                         
-  ylim(c(0, 100)) +                                                              
-  scale_fill_manual(values = labels) +                                           
-  labs(title = "Copertura Post incendio (2020)", x = "Classe", y = "Percentuale (%)") + 
+  geom_bar(stat = "identity") +
+  ylim(c(0, 100)) +
+  scale_fill_manual(values = labels) +
+  labs(title = "Copertura Post incendio (2020)", x = "Classe", y = "Percentuale (%)") +
   theme(legend.position = "none")
 
 p3 <- ggplot(tabella, aes(x = class, y = perc_2026, fill = class)) +              # aes definisce estetica: assi e colori che richiamano tabella
-  geom_bar(stat = "identity") +                                                   # assi x mostra le classi, y i valori percentuali         
-  ylim(c(0, 100)) +                                                              
-  scale_fill_manual(values = labels) +                                           
-  labs(title = "Copertura Post incendio (2026)", x = "Classe", y = "Percentuale (%)") + 
-  theme(legend.position = "none") 
+  geom_bar(stat = "identity") +                                                   # assi x mostra le classi, y i valori percentuali
+  ylim(c(0, 100)) +
+  scale_fill_manual(values = labels) +
+  labs(title = "Copertura Post incendio (2026)", x = "Classe", y = "Percentuale (%)") +
+  theme(legend.position = "none")
 
 # Visualizzazione dei grafici 
 
