@@ -351,8 +351,16 @@ p1 + p2 + p3 # Pacchetto patchwork permette di unire grafici
 ## Conclusioni
 
 L'analisi condotta tramite telerilevamento satellitare multitemporale ha permesso di quantificare e confrontare il danno ambientale causato dagli incendi nell'area di studio e il processo di recupero negli anni successivi. Il confronto multitemporale degli indici di NDVI e DVI hanno mostrato una perdita di vegetazione del 30% a causa degli incendi del 2019-2020, socceduto da un quasi totale ripristino nel 2026. L'anaisi qualitativa delle immagini suggerisce però che il recupero incompleto non è dovuto da una mancata rigenerazione della copertura vegetale in seguito all'incendio, ma da separati eventi. Infatti nella maggiorparte delle aree colpite si osserva il pieno ritorno della foresta, comprese quelle danneggiate da incendi precedenti alla _Black Summer_. La vegetazione dovrebbe quindi aver raggiunto uno stato di salute perfino maggiore della condizione iniziale, ma questo recupero è stato controbilanciato da un'aggiuntiva scomparsa di copertura forestale. A differenza dei danni da incendio, queste aree non sono estese ma appaiono come sparsi punti in tutta la zona a nord-est, all'incirca in corrispondenza con la foresta statale di Yambulla.
+
 Una vista più ravvicinata dell'area mostra che la causa di tutto ciò è la deforestazione per mano dell'uomo, tramite il taglio degli alberi per l'industria del legname. La _Forestry Corporation of NSW_ è stata infatti denunciata numerose volte per il sovrasfruttamento delle risorse forestali, non curandosi dei danni causati dalla _Black Summer_, causando un'ulteriore perdita di habitat per specie minacciate dopo agli incendi.
+
 In conclusione, dopo sei anni dalla fine degli incendi la vegetazione avrebbe potuto recuperare completamente la copertura persa tra il 2019 e il 2020, se non fosse stato per una successiva deforestazione causata dall'attività umana.
+
+<p align="center"> <img width="337" height="262" 
+ src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/01fdae50635dd5c0747eaa60d9489da74df69b19/ESAME/Immagini/Deforestazione.png" />
 
 ## Sitografia
 
+[Bushfires in the ACT - ACT State of the Environment](https://www.actsoe2023.com.au/issues/bushfires-in-the-act/)
+
+[Forestry Corp pinged for logging environmentally significant forests after the Black Summer bushfires](https://www.nature.org.au/forestry_corp_pinged_for_logging_environmentally_significant_forests_after_the_black_summer_bushfires)
