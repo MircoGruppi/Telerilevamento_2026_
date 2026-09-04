@@ -191,3 +191,4 @@ plot(ndvi_2026, col = inferno(100), main = "NDVI 2026")
 
 <img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/5d7338ddbba7699bbce1c6d163c1b279e528e547/ESAME/Immagini/NDVI.png" />
 
+Il confronto degli indici pre e post incendio mostra come nelle aree colpite dagli incendi i valori sono prossimi allo 0, per poi tornare a valori alti vicini a +1 dopo sei anni di recupero vegetazionale. I c
