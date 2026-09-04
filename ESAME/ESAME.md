@@ -3,8 +3,6 @@
 
 # Analisi dell'impatto vegetazionale degli incendi in Australia del 2019-2020
 
-Appello d'esame: 07/09/2026
-
 ## Introduzione
 
 A partire da giugno 2019 fino a febbraio 2020 il sud-est dell'Australia è stata colpita da una serie di incendi boschivi. Il periodo è stato nominato l'"__Australian bushfire season__" o "__Black Summer__", data la lunga durata, la quantità di fuochi e un'area di impatto di oltre 24 milioni di ettari. 
@@ -155,7 +153,7 @@ Procedo a calcolare il DVI usando la funzione `im.dvi` di `imageRy`
 
 ```r
 dvi_2018 <- im.dvi(pre2018, 4, 3)    # Funzione di imageRy
-dvi_2020 <- im.dvi(post2020, 4, 3)   # Differenza di riflettanza tra banda NIR (4) e Rossa (3), mostra salute vegetazione
+dvi_2020 <- im.dvi(post2020, 4, 3)   # Differenza di riflettanza tra banda NIR (4) e Rossa (3)
 dvi_2026 <- im.dvi(post2026, 4, 3)
 
 plot(dvi_2018, col = magma(100), main = "DVI 2018")
@@ -191,4 +189,41 @@ plot(ndvi_2026, col = inferno(100), main = "NDVI 2026")
 
 <img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/5d7338ddbba7699bbce1c6d163c1b279e528e547/ESAME/Immagini/NDVI.png" />
 
-Il confronto degli indici pre e post incendio mostra come nelle aree colpite dagli incendi i valori sono prossimi allo 0, per poi tornare a valori alti vicini a +1 dopo sei anni di recupero vegetazionale. I c
+Il confronto degli indici pre e post incendio mostra come nelle aree colpite dagli incendi i valori sono prossimi allo 0, per poi tornare a valori alti vicini a +1 dopo sei anni di recupero vegetazionale. Le aree che hanno mantenuto valori bassi invece sono gli insediamenti urbani, campi e zone deforestate dall'uomo. Le lagune hanno invece valori negativi prossimi al -1.
+
+## Analisi multitemporale della della densità di distribuzione dell'NDVI mediante ridgeline plot
+
+Il ridgeline plot (grafico a cresta) permette di analizzare e confrontare la distribuzione dei valori dell'indice NDVI nelle diverse date di acquisizione delle immagini satellitari, evidenziando le variazioni della risposta della vegetazione nei tre periodi in esame.
+
+```r
+stack_ndvi <- c(ndvi_2018, ndvi_2020, ndvi_2026)
+names(stack_ndvi) <- c("NDVI 2018", "NDVI 2020", "NDVI 2026")
+im.ridgeline(stack_ndvi, scale = 1, palette = "plasma")
+```
+
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/9d08dadb3b9f9f35c361b26a0e6b758ee0544fb3/ESAME/Immagini/Ridgelines.png" />
+
+I grafici a cresta mostrano come dopo gli incendi del 2019-2020 la densità di dsitribuzione dell'NDVI si è appiattita e allargata, in quanto sono scomparsi i picchi di valori alti a causa della perdita di copertura forestale, che ha lasciato posto al suolo esposto caratterizzato da valori prossimi allo 0. I picchi negativi separati appartengono invece alle aree lagunari.
+
+### Calcolo della differenza multitemporale dell'NDVI
+
+Calcolando la differenza dei valori di NDVI nei tempi diversi, è possibile mappare come la salute della vegetazione cambia nel tempo.
+
+```r
+dev.off() #chiude finestra grafica
+
+ndvi_diff1 <- ndvi_2020 - ndvi_2018  # Differenza tra prima dell'inizio e dopo la fine degli incendi
+ndvi_diff2 <- ndvi_2026 - ndvi_2020  # Differenza tra dopo la fine e il periodo di recupero
+ndvi_diff3 <- ndvi_2026 - ndvi_2018  # Differenza totale
+
+im.multiframe(1,3)
+
+plot(ndvi_diff1, col = rocket(100), main = "2018 - 2020")
+plot(ndvi_diff2, col = rocket(100), main = "2020 - 2026")
+plot(ndvi_diff3, col = rocket(100), main = "2018 - 2026")
+```
+
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/9d08dadb3b9f9f35c361b26a0e6b758ee0544fb3/ESAME/Immagini/NDVIdiff.png" />
+
+Nella prima immagine si può vedere facilmente la perdita di vegetazione causata dagli incendi, evidenziata dalle aree di colore scuro. Nel periodo successivo invece questa perdita è stata invertita, e le stesse aree hanno un colore chiaro, indicando il ripristino vegetazionale. L'ultima immagine mostra invece il cambiamento complessivo dal 2018 al periodo attuale. Si può vedere come il recupero della copertura forestale è stato quasi completo, con pure del miglioramento nelle aree colpite prima del 2018. Tuttavia, a nord-ovest si possono notare numerose aree quasi puntiformi in cui è avvenuta invece una perdita di vegetazione. Questo degrado non sembra quindi essere conseguenza degli incendi del 2019-2020, ma causati probabilmente da una successiva azione dell'uomo.
+
