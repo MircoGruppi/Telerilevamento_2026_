@@ -115,13 +115,13 @@ class_2026 <- im.classify(ndvi_2026, seed = 09, num_cluster = 3)
 
 # Assegnazione delle etichette alle 3 classi
 
-levels(class_2018) <- data.frame(value = c(1, 2, 3), label = c("Mare", "Vegetazione", "Suolo nudo")) # levels assegna valore ad un determinato attributo
-levels(class_2020) <- data.frame(value = c(1, 2, 3), label = c("Mare", "Vegetazione", "Suolo nudo"))
-levels(class_2026) <- data.frame(value = c(1, 2, 3), label = c("Mare", "Vegetazione", "Suolo nudo"))
+levels(class_2018) <- data.frame(value = c(1, 2, 3), label = c("Laguna", "Vegetazione", "Suolo nudo")) # levels assegna valore ad un determinato attributo
+levels(class_2020) <- data.frame(value = c(1, 2, 3), label = c("Laguna", "Vegetazione", "Suolo nudo"))
+levels(class_2026) <- data.frame(value = c(1, 2, 3), label = c("Laguna", "Vegetazione", "Suolo nudo"))
 
 # Assegnazione colori personalizzati alle 3 classi
 
-col_classes <- c("Mare" = "#ffffff","Vegetazione" = "#09622A", "Suolo nudo"="#E8C761") # Mare colorato di bianco in quanto non d'interesse per le analisi
+col_classes <- c("Laguna" = "#ffffff","Vegetazione" = "#09622A", "Suolo nudo"="#E8C761") # Laguna colorato di bianco in quanto non d'interesse per le analisi
 
 # Visualizzazione delle classificazioni
 
@@ -131,7 +131,7 @@ plot(class_2026, col=col_classes, main="2026", legend=FALSE)
 
 # Creazione Legenda
 
-labels <- c("Vegetazione" = "#09622A", "Suolo nudo"="#E8C761") # Colori per due cluster -> escluso Mare
+labels <- c("Vegetazione" = "#09622A", "Suolo nudo"="#E8C761") # Colori per due cluster -> escluso Laguna
 
 legend("bottomleft", 
        legend = names(labels), 
@@ -145,7 +145,7 @@ f_2018 <- freq(class_2018) # Frequenza valori nel raster
 f_2020 <- freq(class_2020)
 f_2026 <- freq(class_2026)
 
-# Eliminiamo la classe del Mare
+# Eliminiamo la classe della Laguna
 
 f_2018 <- f_2018[-1, ] #Elimina tutti elementi della prima riga
 f_2020 <- f_2020[-1, ]
