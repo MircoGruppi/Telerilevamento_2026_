@@ -273,3 +273,44 @@ legend("bottomleft",
 
 <img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/8016ec049bb2b96c607a1678120ad4eacaeedf01/ESAME/Immagini/Classification.png" />
 
+Dal confronto visivo delle mappe si rileva un'espansione delle aree classificate come "Suolo nudo" a scapito della classe "Vegetazione" dopo l'impatto degli incendi, seguito da un recupero dopo il passaggio dei sei anni. Al fine di validare quantitativamente le variazioni spaziali osservate, vengono calcolate le frequenze dei pixel per ciascuna classe.
+
+```r
+f_2018 <- freq(class_2018) # Frequenza valori nel raster
+f_2020 <- freq(class_2020)
+f_2026 <- freq(class_2026)
+```
+
+Possiamo eliminare dal conteggio i pixel della classe "Laguna", in quanto non d'interesse per lo studio.
+
+```r
+f_2018 <- f_2018[-1, ] #Elimina tutti elementi della prima riga
+f_2020 <- f_2020[-1, ]
+f_2026 <- f_2026[-1, ]
+```
+
+Procediamo con il calcolo delle percentuali delle classi rimanenti
+
+```r
+perc_2018 <- (f_2018$count / sum(f_2018[,3])) * 100  # Proporzione: Prende conteggi e divide per somma pixel terza colonna (Vegetazione + Suolo nudo)
+perc_2020 <- (f_2020$count / sum(f_2018[,3])) * 100  # Percentuale: Moltiplica prop per 100
+perc_2026 <- (f_2026$count / sum(f_2018[,3])) * 100
+
+# Creazione tabella riassuntiva
+
+tabella <- data.frame( 
+  class = c("Vegetazione", "Suolo nudo"),
+  Pre_2018 = perc_2018 ,
+  Post_2020 = perc_2020 ,
+  Post_2026 = perc_2026 ,
+)
+
+# Visualizzazione tabella
+
+tabella
+```
+
+| class | Pre_2018 | Post_2020 | Post_2026 |
+| :--- | :---: | :---: | :---: | 
+| Vegetazione | 96.628875  | 63.62995 | 95.879389 |
+| Suolo Nudo  | 3.371125  | 36.29394 | 4.075564 |
