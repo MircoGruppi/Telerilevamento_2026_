@@ -5,45 +5,45 @@ getwd()       # Verifica della working directory
 list.files()  # Lista dei file all'interno della working directory
 
 # Caricamento pacchetti
-library(terra)     # Per la gestione di dati raster. 
+library(terra)     # Per la gestione di dati raster
 library(imageRy)   # Gestione, analisi e visualizzazione multiframe di immagini raster
 library(ggplot2)   # Creazione di grafici personalizzati
-library(patchwork) # Per la combinazione flessibile dei grafici a barre in un'unica interfaccia;
+library(patchwork) # Per la combinazione flessibile dei grafici a barre in un'unica interfaccia
 library(viridis)   # Palette di colori ad alta leggibilità
 library(ggridges)  # Grafici a cresta per visualizzare distribuzioni continue
 
-# Funzione per tagliare raster usando un vettore
-
-clipCoast <- function(img, boundary){
-  img_crop <- crop(img, boundary)       # Ritaglia il raster all'estensione dello shapefile
-  img_mask <- mask(img_crop, boundary)  # Mantiene i pixel interni al perimetro dello shapefile
-  return(img_mask)
-  }
 
 # Importazione dati raster da Sentinel-2
 
-pre2018 <- rast("Australia_2018_bands.tif") # rast() permette di importare SpatRaster
+pre2018 <- rast("Australia_2018_bands.tif")
 post2020 <- rast("Australia_2020_bands.tif")
 post2026 <- rast("Australia_2026_bands.tif")
 
+pre2018
+post2020
+post2026
+
 # Mostra layer separati
 
-im.multiframe(3,4) # Suddivisione della finestra grafica in 3 righe e 4 colonne
+im.multiframe(3,5) # Suddivisione della finestra grafica in 3 righe e 5 colonne
 
 plot(pre2018[[1]], col = rocket(100), main = "2018, B2") #Mostra valori della prima banda
 plot(pre2018[[2]], col = rocket(100), main = "2018, B3")
 plot(pre2018[[3]], col = rocket(100), main = "2018, B4")
 plot(pre2018[[4]], col = rocket(100), main = "2018, B8")
+plot(pre2018[[5]], col = rocket(100), main = "2018, B12")
 
 plot(post2020[[1]], col = rocket(100), main = "2020, B2")
 plot(post2020[[2]], col = rocket(100), main = "2020, B3")
 plot(post2020[[3]], col = rocket(100), main = "2020, B4")
 plot(post2020[[4]], col = rocket(100), main = "2020, B8")
+plot(post2020[[5]], col = rocket(100), main = "2020, B12")
 
 plot(post2026[[1]], col = rocket(100), main = "2026, B2")
 plot(post2026[[2]], col = rocket(100), main = "2026, B3")
 plot(post2026[[3]], col = rocket(100), main = "2026, B4")
 plot(post2026[[4]], col = rocket(100), main = "2026, B8")
+plot(post2026[[5]], col = rocket(100), main = "2026, B12")
 
 #Visualizzazione a colori naturali
 
@@ -63,19 +63,31 @@ plotRGB(post2026, r=4, g=2, b=1, stretch = "lin", main = "2026")
 
 coast <- vect("AustraliaCosta.shp") # importa shapefile come SpatVector
 
-pre2018 <- clipCoast(pre2018,coast)
-post2020 <- clipCoast(post2020,coast)
-post2026 <- clipCoast(post2026,coast)
+pre2018 <- crop(pre2018, coast, mask = TRUE)
+post2020 <- crop(post2020, coast, mask = TRUE)
+post2026 <- crop(post2026, coast, mask = TRUE)
 
-#DVI Difference vegetation index
+# NBR Normalized Burn Ratio
 
-dvi_2018 <- im.dvi(pre2018, 4, 3)    # Funzione di imageRy
-dvi_2020 <- im.dvi(post2020, 4, 3)   # Differenza di riflettanza tra banda NIR (4) e Rossa (3), mostra salute vegetazione
-dvi_2026 <- im.dvi(post2026, 4, 3)
+nbr_2018 = (pre2018[["B8"]] - pre2018[["B12"]]) / (pre2018[["B8"]] + pre2018[["B12"]])       # Calcolo NBR pre-incendio
+nbr_2020 = (post2020[["B8"]] - post2020[["B12"]]) / (post2020[["B8"]] + post2020[["B12"]])   # Calcolo NBR post-incendio
+nbr_2026 = (post2026[["B8"]] - post2026[["B12"]]) / (post2026[["B8"]] + post2026[["B12"]])
 
-plot(dvi_2018, col = magma(100), main = "DVI 2018")
-plot(dvi_2020, col = magma(100), main = "DVI 2020")
-plot(dvi_2026, col = magma(100), main = "DVI 2026")
+# Visualizzazione NBR
+
+plot(nbr_2018, col = magma (100), main = "NBR 2018")
+plot(nbr_2020, col = magma (100), main = "NBR 2020")
+plot(nbr_2026, col = magma (100), main = "NBR 2026")
+
+# Burn Severity
+
+nbr_diff1 <- nbr_2020 - nbr_2018  # Differenza tra prima dell'inizio e dopo la fine degli incendi
+nbr_diff2 <- nbr_2026 - nbr_2020  # Differenza tra dopo la fine e il periodo di recupero
+nbr_diff3 <- nbr_2026 - nbr_2018  # Differenza totale
+
+plot(nbr_diff1, col = rocket(100), main = "2018 - 2020")
+plot(nbr_diff2, col = rocket(100), main = "2020 - 2026")
+plot(nbr_diff3, col = rocket(100), main = "2018 - 2026")
 
 # NDVI Normalized difference vegetation index -> standardizzato per diverse risoluzioni radiometriche -> range -1 / +1
 
@@ -103,9 +115,17 @@ ndvi_diff3 <- ndvi_2026 - ndvi_2018  # Differenza totale
 
 im.multiframe(1,3)
 
-plot(ndvi_diff1, col = rocket(100), main = "2018 - 2020")
-plot(ndvi_diff2, col = rocket(100), main = "2020 - 2026")
-plot(ndvi_diff3, col = rocket(100), main = "2018 - 2026")
+plot(ndvi_diff1, col = cividis(100), main = "2018 - 2020")
+plot(ndvi_diff2, col = cividis(100), main = "2020 - 2026")
+plot(ndvi_diff3, col = cividis(100), main = "2018 - 2026")
+
+#diff_NBR_NDIFF1 <- nbr_diff1 - ndvi_diff1
+#diff_NBR_NDIFF2 <- nbr_diff2 - ndvi_diff2
+#diff_NBR_NDIFF3 <- nbr_diff3 - ndvi_diff3
+
+#plot(diff_NBR_NDIFF1, col = cividis(100), main = "2018 - 2020")
+#plot(diff_NBR_NDIFF2, col = cividis(100), main = "2020 - 2026")
+#plot(diff_NBR_NDIFF3, col = cividis(100), main = "2018 - 2026")
 
 # Classificazione non supervisionata delle tre immagini raster in 3 cluster
 
