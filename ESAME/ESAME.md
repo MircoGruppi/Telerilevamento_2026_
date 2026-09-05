@@ -313,7 +313,7 @@ tabella
 | Classi | Pre 2018 | Post 2020 | Post 2026 |
 | :--- | :---: | :---: | :---: | 
 | Vegetazione | 96.63%  | 63.63% | 95.88% |
-| Suolo Nudo  | 3.37%  | 36.29% | 4.076% |
+| Suolo nudo  | 3.37%  | 36.29% | 4.076% |
 
 Dai dati si può vedere che in seguito agli incendi del 2019-2020 la vegetazione, da una condizione originaria di elevata copertura, ha subito un calo del 30%. Nel 2026 è riuscita a recuperare il danno ritornando ad un valore di 95%, non raggiungendo di poco il valore di partenza.
 
