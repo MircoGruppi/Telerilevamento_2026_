@@ -22,8 +22,8 @@ Tramite le immagini satellitari di Sentinel-2, lanciato per il progetto Copernic
 
 ## Obiettivi
 
-L'obiettivo è valutare gli impatti dell'incendio sulla vegetazione sia con un'analisi qualitativa (tramite composizoni RGB), sia quantitativamente utilizzando gli indici di vegetazione:
-* DVI: Difference Vegetation Index 
+L'obiettivo è valutare gli impatti dell'incendio sulla vegetazione sia con un'analisi qualitativa (tramite composizoni RGB), sia quantitativamente utilizzando gli indici:
+* NBR: Normalized Burn Ratio
 * NDVI: Normalized Difference Vegetation Index
 
 L'analisi multitemporale invece permette di valutare il recupero vegetazionale dopo sei anni.
@@ -35,7 +35,7 @@ Le immagini sono state acquisite dal portale web di [Google Earth Engine](https:
 
 ## Analisi tramite Software R
 
-#### Impostazione della working directory
+Impostazione della working directory
 
 ```r
 setwd("~/Desktop/Università/Telerilevamento") 
@@ -43,28 +43,18 @@ getwd()       #verifica della working directory
 list.files()  #lista dei file all'interno della working directory
 ```
 
-#### Caricamento dei pacchetti che verranno utilizzati nello studio.
+Caricamento dei pacchetti che verranno utilizzati nello studio.
 
 ```r
-library(terra)     # Per la gestione di dati raster. 
+library(terra)     # Per la gestione di dati raster
 library(imageRy)   # Gestione, analisi e visualizzazione multiframe di immagini raster
 library(ggplot2)   # Creazione di grafici personalizzati
-library(patchwork) # Per la combinazione flessibile dei grafici a barre in un'unica interfaccia;
+library(patchwork) # Per la combinazione flessibile dei grafici a barre in un'unica interfaccia
 library(viridis)   # Palette di colori ad alta leggibilità
 library(ggridges)  # Grafici a cresta per visualizzare distribuzioni continue
 ```
 
-#### Scrittura di una funzione da richiamare successivamente
-
-```r
-clipCoast <- function(img, boundary){
-  img_crop <- crop(img, boundary)       # Ritaglia il raster all'estensione dello shapefile
-  img_mask <- mask(img_crop, boundary)  # Mantiene i pixel interni al perimetro dello shapefile
-  return(img_mask)
-  }
-```
-
-#### Importazione dati raster da Sentinel-2
+Importazione dati raster da Sentinel-2
 
 ```r
 pre2018 <- rast("Australia_2018_bands.tif")
@@ -77,22 +67,25 @@ post2026 <- rast("Australia_2026_bands.tif")
 ### Visualizzazione delle singole bande del visibile (B2, B3, B4) e del vicino infrarosso (B8)
 
 ```r
-im.multiframe(3,4) # Suddivisione della finestra grafica in 3 righe e 4 colonne
+im.multiframe(3,5) # Suddivisione della finestra grafica in 3 righe e 5 colonne
 
 plot(pre2018[[1]], col = rocket(100), main = "2018, B2") #Mostra valori della prima banda
 plot(pre2018[[2]], col = rocket(100), main = "2018, B3")
 plot(pre2018[[3]], col = rocket(100), main = "2018, B4")
 plot(pre2018[[4]], col = rocket(100), main = "2018, B8")
+plot(pre2018[[5]], col = rocket(100), main = "2018, B12")
 
 plot(post2020[[1]], col = rocket(100), main = "2020, B2")
 plot(post2020[[2]], col = rocket(100), main = "2020, B3")
 plot(post2020[[3]], col = rocket(100), main = "2020, B4")
 plot(post2020[[4]], col = rocket(100), main = "2020, B8")
+plot(post2020[[5]], col = rocket(100), main = "2020, B12")
 
 plot(post2026[[1]], col = rocket(100), main = "2026, B2")
 plot(post2026[[2]], col = rocket(100), main = "2026, B3")
 plot(post2026[[3]], col = rocket(100), main = "2026, B4")
 plot(post2026[[4]], col = rocket(100), main = "2026, B8")
+plot(post2026[[5]], col = rocket(100), main = "2026, B12")
 ```
 
 <img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/4e48e881e38bd8aade164a83667b9d9253733057/ESAME/Immagini/Bande.png" />
