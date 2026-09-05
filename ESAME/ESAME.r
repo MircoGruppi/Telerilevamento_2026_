@@ -89,8 +89,8 @@ plot(ndvi_2026, col = inferno(100), main = "NDVI 2026")
 
 # Analisi multitemporale della densità di distribuzione dell'NDVI mediante ridgeline plot
 
-stack_ndvi <- c(ndvi_2018, ndvi_2020, ndvi_2026)
-names(stack_ndvi) <- c("NDVI 2018", "NDVI 2020", "NDVI 2026")
+stack_ndvi <- c(ndvi_2018, ndvi_2020, ndvi_2026) # crea vettore di oggetti concatenandoli
+names(stack_ndvi) <- c("NDVI 2018", "NDVI 2020", "NDVI 2026") # assegna nomi agli oggetti del vettore
 im.ridgeline(stack_ndvi, scale = 1, palette = "plasma")
 
 # Analisi temporale tramite differenze dell'NDVI
@@ -137,7 +137,7 @@ legend("bottomleft",
        legend = names(labels), 
        fill = labels,  # Determina colori in base a palette definita
        bg = "white",
-       xpd = TRUE)     # Può essere disegnata fuori dall'interfaccia grafica
+       xpd = TRUE)     # Mantieni legenda al di fuori dei grafici
 
 # Calcolo delle frequenze
 
