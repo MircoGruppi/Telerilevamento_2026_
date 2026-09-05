@@ -120,7 +120,7 @@ La composizione RGB a colori naturali permette di effettuare un primo confronto 
 Sostituendo il NIR al posto della banda del rosso, si evidenziano le zone di vegetazione. Queste immagini permettono di osservare lo stato di salute della vegetazione, poichè una maggiore riflessione del NIR indica una vegetazione sana che apparità con un rosso più intenso, rispetto invece a una vegetazione danneggiata e sottoposta a stress.
 
 ```r
-lotRGB(pre2018, r=4, g=2, b=1, stretch = "lin", main = "2018")   # Metto banda B8 sul rosso
+plotRGB(pre2018, r=4, g=2, b=1, stretch = "lin", main = "2018")   # Metto banda B8 sul rosso
 plotRGB(post2020, r=4, g=2, b=1, stretch = "lin", main = "2020")
 plotRGB(post2026, r=4, g=2, b=1, stretch = "lin", main = "2026")
 ```
