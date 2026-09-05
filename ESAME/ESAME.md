@@ -67,7 +67,7 @@ clipCoast <- function(img, boundary){
 #### Importazione dati raster da Sentinel-2
 
 ```r
-pre2018 <- rast("Australia_2018_bands.tif") # rast() permette di importare SpatRaster
+pre2018 <- rast("Australia_2018_bands.tif")
 post2020 <- rast("Australia_2020_bands.tif")
 post2026 <- rast("Australia_2026_bands.tif")
 ```
