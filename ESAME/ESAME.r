@@ -85,9 +85,15 @@ nbr_diff1 <- nbr_2018 - nbr_2020  # Differenza tra prima dell'inizio e dopo la f
 nbr_diff2 <- nbr_2020 - nbr_2026  # Differenza tra dopo la fine e il periodo di recupero
 nbr_diff3 <- nbr_2018 - nbr_2026  # Differenza totale
 
+plot(nbr_diff1, col = rocket(100), main = "2018 - 2020")
+plot(nbr_diff2, col = rocket(100), main = "2020 - 2026")
+plot(nbr_diff3, col = rocket(100), main = "2018 - 2026")
+
 stack_dNBR <- c(nbr_diff1, nbr_diff2, nbr_diff3) # crea vettore di oggetti concatenandoli
 names(stack_dNBR) <- c("dNBR 2018-2020", "dNBR 2020-2026", "dNBR 2018-2026") # assegna nomi agli oggetti del vettore
-im.ridgeline(stack_dNBR, scale = 0.5, palette = "viridis")
+im.ridgeline(stack_dNBR, scale = 0.75, palette = "rocket") +
+  xlim(-1.5, 1.5) +                                                    # Restringimento dei valori di x per una visualizzazione migliore       
+       labs(title = "Ridgeline plot dei valori di ∆NBR")
 
 # NDVI Normalized difference vegetation index -> standardizzato per diverse risoluzioni radiometriche -> range -1 / +1
 
