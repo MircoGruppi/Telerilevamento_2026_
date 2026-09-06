@@ -89,12 +89,6 @@ plot(nbr_diff1, col = rocket(100), main = "2018 - 2020")
 plot(nbr_diff2, col = rocket(100), main = "2020 - 2026")
 plot(nbr_diff3, col = rocket(100), main = "2018 - 2026")
 
-stack_dNBR <- c(nbr_diff1, nbr_diff2, nbr_diff3) # crea vettore di oggetti concatenandoli
-names(stack_dNBR) <- c("dNBR 2018-2020", "dNBR 2020-2026", "dNBR 2018-2026") # assegna nomi agli oggetti del vettore
-im.ridgeline(stack_dNBR, scale = 0.75, palette = "rocket") +
-  xlim(-1.5, 1.5) +                                                    # Restringimento dei valori di x per una visualizzazione migliore       
-       labs(title = "Ridgeline plot dei valori di ∆NBR")
-
 # NDVI Normalized difference vegetation index -> standardizzato per diverse risoluzioni radiometriche -> range -1 / +1
 
 ndvi_2018 <- im.ndvi(pre2018, 4, 3) # DVI(somma banda NRI e visibile (rossa)
@@ -107,9 +101,11 @@ plot(ndvi_2026, col = inferno(100), main = "NDVI 2026")
 
 # Analisi multitemporale della densità di distribuzione dell'NDVI mediante ridgeline plot
 
-stack_ndvi <- c(ndvi_2018, ndvi_2020, ndvi_2026) # crea vettore di oggetti concatenandoli
+stack_ndvi <- c(ndvi_2018, ndvi_2020, ndvi_2026)              # crea vettore di oggetti concatenandoli
 names(stack_ndvi) <- c("NDVI 2018", "NDVI 2020", "NDVI 2026") # assegna nomi agli oggetti del vettore
-im.ridgeline(stack_ndvi, scale = 1, palette = "plasma")
+im.ridgeline(stack_ndvi, scale = 1, palette = "inferno") +
+  xlim(0, 1) +                                                # Restringimento dei valori di x per una visualizzazione migliore 
+       labs(title = "Ridgeline plot dei valori di NDVI")
 
 # Analisi temporale tramite differenze dell'NDVI
 
@@ -121,9 +117,9 @@ ndvi_diff3 <- ndvi_2026 - ndvi_2018  # Differenza totale
 
 im.multiframe(1,3)
 
-plot(ndvi_diff1, col = rocket(100), main = "2018 - 2020")
-plot(ndvi_diff2, col = rocket(100), main = "2020 - 2026")
-plot(ndvi_diff3, col = rocket(100), main = "2018 - 2026")
+plot(ndvi_diff1, col = plasma(100), main = "2018 - 2020")
+plot(ndvi_diff2, col = plasma(100), main = "2020 - 2026")
+plot(ndvi_diff3, col = plasma(100), main = "2018 - 2026")
 
 # Classificazione non supervisionata delle tre immagini raster in 3 cluster
 
