@@ -81,13 +81,13 @@ plot(nbr_2026, col = magma (100), main = "NBR 2026")
 
 # Burn Severity
 
-nbr_diff1 <- nbr_2020 - nbr_2018  # Differenza tra prima dell'inizio e dopo la fine degli incendi
-nbr_diff2 <- nbr_2026 - nbr_2020  # Differenza tra dopo la fine e il periodo di recupero
-nbr_diff3 <- nbr_2026 - nbr_2018  # Differenza totale
+nbr_diff1 <- nbr_2018 - nbr_2020  # Differenza tra prima dell'inizio e dopo la fine degli incendi
+nbr_diff2 <- nbr_2020 - nbr_2026  # Differenza tra dopo la fine e il periodo di recupero
+nbr_diff3 <- nbr_2018 - nbr_2026  # Differenza totale
 
-plot(nbr_diff1, col = rocket(100), main = "2018 - 2020")
-plot(nbr_diff2, col = rocket(100), main = "2020 - 2026")
-plot(nbr_diff3, col = rocket(100), main = "2018 - 2026")
+stack_dNBR <- c(nbr_diff1, nbr_diff2, nbr_diff3) # crea vettore di oggetti concatenandoli
+names(stack_dNBR) <- c("dNBR 2018-2020", "dNBR 2020-2026", "dNBR 2018-2026") # assegna nomi agli oggetti del vettore
+im.ridgeline(stack_dNBR, scale = 0.5, palette = "viridis")
 
 # NDVI Normalized difference vegetation index -> standardizzato per diverse risoluzioni radiometriche -> range -1 / +1
 
@@ -115,21 +115,13 @@ ndvi_diff3 <- ndvi_2026 - ndvi_2018  # Differenza totale
 
 im.multiframe(1,3)
 
-plot(ndvi_diff1, col = cividis(100), main = "2018 - 2020")
-plot(ndvi_diff2, col = cividis(100), main = "2020 - 2026")
-plot(ndvi_diff3, col = cividis(100), main = "2018 - 2026")
-
-#diff_NBR_NDIFF1 <- nbr_diff1 - ndvi_diff1
-#diff_NBR_NDIFF2 <- nbr_diff2 - ndvi_diff2
-#diff_NBR_NDIFF3 <- nbr_diff3 - ndvi_diff3
-
-#plot(diff_NBR_NDIFF1, col = cividis(100), main = "2018 - 2020")
-#plot(diff_NBR_NDIFF2, col = cividis(100), main = "2020 - 2026")
-#plot(diff_NBR_NDIFF3, col = cividis(100), main = "2018 - 2026")
+plot(ndvi_diff1, col = rocket(100), main = "2018 - 2020")
+plot(ndvi_diff2, col = rocket(100), main = "2020 - 2026")
+plot(ndvi_diff3, col = rocket(100), main = "2018 - 2026")
 
 # Classificazione non supervisionata delle tre immagini raster in 3 cluster
 
-class_2018 <- im.classify(ndvi_2018, seed = 96, num_cluster = 3) # R sceglie automaticamente i tipi di gruppi
+class_2018 <- im.classify(ndvi_2018, seed = 1303, num_cluster = 3) # R sceglie automaticamente i tipi di gruppi
 class_2020 <- im.classify(ndvi_2020, seed = 20, num_cluster = 3) # seed indica una delle iterazioni possibili
 class_2026 <- im.classify(ndvi_2026, seed = 09, num_cluster = 3)
 
@@ -181,18 +173,18 @@ perc_2026 <- (f_2026$count / sum(f_2018[,3])) * 100
 
 tabella <- data.frame( 
   class = c("Vegetazione", "Suolo nudo"),
-  Pre_2018 = perc_2018 ,
-  Post_2020 = perc_2020 ,
-  Post_2026 = perc_2026 ,
+  Pre_2018 = round(perc_2018, digits = 2) ,
+  Post_2020 = round(perc_2020, digits = 2) ,
+  Post_2026 = round(perc_2026, digits = 2) ,
 )
 
 # Visualizzazione tabella
 
 tabella
 
-#        class  Pre_2018 Post_2020 Post_2026
-#1 Vegetazione 96.628875  63.62995 95.879389
-#2  Suolo Nudo  3.371125  36.29394  4.075564
+#        class Pre_2018 Post_2020 Post_2026
+#1 Vegetazione    96.77     63.58     96.00
+#2  Suolo nudo     3.23     36.34      3.95
 
 # Generazione di grafici a barre per il confronto
 
