@@ -3,10 +3,12 @@
 
 # Analisi dell'impatto vegetazionale degli incendi in Australia del 2019-2020
 
+<p align="center"> <img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/d0bfcc5fb8647919e5e82713c136b6517135c446/ESAME/Immagini/Mallacoota.png" />
+
 ## Introduzione
 
-A partire da giugno 2019 fino a febbraio 2020 il sud-est dell'Australia è stata colpita da una serie di incendi boschivi. Il periodo è stato nominato l'"__Australian bushfire season__" o "__Black Summer__", data la lunga durata, la quantità di fuochi e un'area di impatto di oltre 24 milioni di ettari. 
-Una delle aree più impattate è la costa attorno al paese di **Mallacoota**, situato al confine tra gli stati di Victoria e New South Wales nella Contea di East Gippsland. Qui numerose aree protette sono state interessate dai fuochi, tra cui dei parchi nazionali. É importante quindi studiare gli impatti di questa serie di incendi e capire come la vegetazione ha recuperato nel tempo.
+A partire da giugno 2019 fino a febbraio 2020 Australia sud-orientale è stata colpita da una serie di incendi boschivi. Il periodo è stato nominato l'"___Australian bushfire season___" o "___Black Summer___", data la lunga durata, la quantità di fuochi e l'area di impatto di oltre 24 milioni di ettari. 
+Una delle aree più impattate è la costa attorno al paese di *Mallacoota*, situato al confine tra gli stati di *Victoria* e *New South Wales* nella Contea di *East Gippsland*. Qui numerose aree protette sono state interessate dai fuochi, tra cui dei parchi nazionali. É importante quindi studiare gli impatti di questa serie di incendi e capire come la vegetazione ha recuperato nel tempo.
 
 <p align="center"> <img width="362" height="512" src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/d0b29b7d197b15eef397cb02e3ec5501c5f4ee7f/ESAME/Immagini/Bushfires.jpg" />
 
@@ -18,7 +20,7 @@ Tramite le immagini satellitari di Sentinel-2, lanciato per il progetto Copernic
 
 * Estate 2026: Situazione di recupero attuale, sei anni dopo l'incendio
 
-<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/f50f78fbeb1e4dbde5b684880c1c86fde41ec925/ESAME/Immagini/Mallacoota.png" />
+<p align="center"> <img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/d0bfcc5fb8647919e5e82713c136b6517135c446/ESAME/Immagini/Map.png" />
 
 ## Obiettivi
 
@@ -64,7 +66,7 @@ post2026 <- rast("Australia_2026_bands.tif")
 
 ## Visualizzazione
 
-### Visualizzazione delle singole bande del visibile (B2, B3, B4) e del vicino infrarosso (B8)
+### Visualizzazione delle singole bande del visibile (B2, B3, B4), e dell'infrarosso (B8, B12)
 
 ```r
 im.multiframe(3,5) # Suddivisione della finestra grafica in 3 righe e 5 colonne
@@ -88,9 +90,9 @@ plot(post2026[[4]], col = rocket(100), main = "2026, B8")
 plot(post2026[[5]], col = rocket(100), main = "2026, B12")
 ```
 
-<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/4e48e881e38bd8aade164a83667b9d9253733057/ESAME/Immagini/Bande.png" />
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/d0bfcc5fb8647919e5e82713c136b6517135c446/ESAME/Immagini/Bande.png" />
 
-La visualizzazione separata delle bande del visibile (blu, verde e rosso) e della banda del vicino infrarosso (NIR) consente di comparare la risposta spettrale delle diverse superfici nelle tre fasi analizzate. Osservando la banda del NIR, sensibile alla presenza e allo stato di salute della vegetazione, si nota una diminuzione della riflettanza in seguito agli incendi, e un recupero sei anni dopo.
+La visualizzazione separata delle bande del visibile (blu, verde e rosso) e dell'infrarosso (NIR e SWIR) consente di comparare la risposta spettrale delle diverse superfici nelle tre fasi analizzate. Osservando la banda del NIR, sensibile alla presenza e allo stato di salute della vegetazione, si nota una diminuzione della riflettanza in seguito agli incendi, e un recupero sei anni dopo. La banda del SWIR invece mette in evidenza le stesse aree colpite dalle fiamme.
 
 ### Composizione RGB a colori naturali
 
@@ -104,7 +106,7 @@ plotRGB(post2020, r=3, g=2, b=1, stretch = "lin", main = "2020") # Stretch allar
 plotRGB(post2026, r=3, g=2, b=1, stretch = "lin", main = "2026")
 ```
 
-<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/4e48e881e38bd8aade164a83667b9d9253733057/ESAME/Immagini/ColoriNaturali.png" />
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/d0bfcc5fb8647919e5e82713c136b6517135c446/ESAME/Immagini/ColoriNaturali.png" />
 
 La composizione RGB a colori naturali permette di effettuare un primo confronto qualitativo tra le condizioni dell'area di studio pre e post incendio, evidenziando le variazioni della copertura vegetale e le aree percorse dal fuoco, che appaiono con tonalità più scure. A sei anni dall'evento, si osserva un ripristino quasi completo della vegetazione.
 
@@ -118,53 +120,95 @@ plotRGB(post2020, r=4, g=2, b=1, stretch = "lin", main = "2020")
 plotRGB(post2026, r=4, g=2, b=1, stretch = "lin", main = "2026")
 ```
 
-<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/4e48e881e38bd8aade164a83667b9d9253733057/ESAME/Immagini/NIRsuRed.png" />
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/d0bfcc5fb8647919e5e82713c136b6517135c446/ESAME/Immagini/FalseColors.png" />
 
-Le immagini prodotte permettono di vedere con maggiore chiarezza le aree colpite dagli incendi, poi ripristinate nell'ultima fase. Si può anche osservare come nel 2018 alcune aree appaiano già danneggiate, a causa di incendi avvenuti negli anni precedenti. Nel 2026 si può apprezzare il reucpero vegetazionale pure di queste zone.
+Le immagini prodotte permettono di vedere con maggiore chiarezza le aree colpite dagli incendi, poi ripristinate nell'ultima fase. Si può anche osservare come nel 2018 alcune aree appaiano già danneggiate, a causa di incendi avvenuti negli anni precedenti. Nel 2026 si può apprezzare il recupero vegetazionale pure in queste zone.
 
 ## Analisi degli indici spettrali
 
-### Analisi DVI
+## Analisi NBR
 
-Il **Difference Vegetation Index (DVI)** è un indice di vegetazione ottenuto come differenza tra la riflettanza della banda del vicino infrarosso (NIR) e quella della banda del rosso (Red):
+Il ***Normalized Burn Ratio (NBR)*** è un indice progettato per evidenziare aree bruciate da vasti incendi. Viene calcolato sfruttando la banda NIR (B8), indice di vegetazione in salute, e la banda **SWIR (B12)**, sensibile all'umidità e alle superfici bruciate. L'indice è normalizzato facendo la proporzione con la somma delle due bande: valori prossimi al +1 indicano buona attività fotosintetica, valori prossimi al -1 invece mostrano il suolo nudo e aree recentemente bruciate. Le superfici che invece non hanno subito danni da incendi hanno valori vicino allo 0.
 
-$DVI = NIR - Red$
-
-Le piante, grazie ai pigmenti fotosintetici, assorbono nel visibile gran parte della radiazione nel rosso, mentre riflette il vicino infrarosso a causa di particolarità nella struttura fogliare. Di conseguenza l'indice DVI è usato per valutare la presenza di vegetazione: valori elevati di DVI indicano una vegetazione vigorosa e con elevata attività fotosintetica. È un indice non normalizzato, ma fornisce informazioni comparative, per evidenziare la perdita di vegetazione causata dal fuoco.
+$$NBR = \frac{NIR - SWIR}{NIR + SWIR}$$
 
 Dato che l'analisi è incentrata sui danni causati dagli incendi sulla vegetazione terrestre, le informazioni della superficie del mare non sono d'interesse, e possono essere rimosse usando la funzione scritta in precedenza. Importando uno shapefile come SpatVector è possibile ritagliare il file raster, rimuovendo così i pixel della superficie marina.
+
 
 ```r
 coast <- vect("AustraliaCosta.shp") # importa shapefile come SpatVector
 
-pre2018 <- clipCoast(pre2018,coast)
-post2020 <- clipCoast(post2020,coast)
-post2026 <- clipCoast(post2026,coast)
+pre2018 <- crop(pre2018, coast, mask = TRUE) # crop taglia il file SpatRaster usando il vettore
+post2020 <- crop(post2020, coast, mask = TRUE) # mask = TRUE elimina pixel al di fuori del shapefile
+post2026 <- crop(post2026, coast, mask = TRUE)
 ```
 
-Procedo a calcolare il DVI usando la funzione `im.dvi` di `imageRy`
+Procedo a calcolare l'indice NBR
 
 ```r
-dvi_2018 <- im.dvi(pre2018, 4, 3)    # Funzione di imageRy
-dvi_2020 <- im.dvi(post2020, 4, 3)   # Differenza di riflettanza tra banda NIR (4) e Rossa (3)
-dvi_2026 <- im.dvi(post2026, 4, 3)
+nbr_2018 = (pre2018[["B8"]] - pre2018[["B12"]]) / (pre2018[["B8"]] + pre2018[["B12"]])       # Calcolo NBR pre-incendio
+nbr_2020 = (post2020[["B8"]] - post2020[["B12"]]) / (post2020[["B8"]] + post2020[["B12"]])   # Calcolo NBR post-incendio
+nbr_2026 = (post2026[["B8"]] - post2026[["B12"]]) / (post2026[["B8"]] + post2026[["B12"]])
 
-plot(dvi_2018, col = magma(100), main = "DVI 2018")
-plot(dvi_2020, col = magma(100), main = "DVI 2020")
-plot(dvi_2026, col = magma(100), main = "DVI 2026")
+# Visualizzazione NBR
+
+plot(nbr_2018, col = magma (100), main = "NBR 2018")
+plot(nbr_2020, col = magma (100), main = "NBR 2020")
+plot(nbr_2026, col = magma (100), main = "NBR 2026")
 ```
 
-<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/5d7338ddbba7699bbce1c6d163c1b279e528e547/ESAME/Immagini/DVI.png" />
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/d0bfcc5fb8647919e5e82713c136b6517135c446/ESAME/Immagini/NBR.png" />
 
-Le aree interessate dall'incendio corrispondono ai valori più bassi di DVI, mostrando una forte diminuizione della biomassa vegetale fotosintetica. Dopo sei anni si può notare invece il recupero della copertura forestale.
+Nel 2020 si può vedere l'ampia estensione degli incendi, i cuoi danni sono rappresentati dai colori più scuri. Dopo sei anni si può notare che il suolo ha recuperato buona parte dell'impatto. Nel 2018 si notano bene le aree a sud-ovest già colpite da incendi, e il loro recupero negli anni successivi.
 
-Le aree lagunari, essendo all'interno delle linee di costa, non sono state tagliate dalla funzione `clipCoast` e vengono mostrate tramite valori vicini allo 0. Ciò avviene perchè l'acqua ha una forte assorbanza nel NIR.
+### Burn Severity
 
-### Analisi NDVI
+La gravità delle bruciature può essere calcolato tramite il delta NBR 
 
-Il Normalized Difference Vegetation Index (NDVI) è uno degli indici di vegetazione più utilizzati nell'ambito del telerilevamento per valutare lo stato e il vigore della copertura vegetale. Come per il DVI, si basa sulle caratteristiche spettrali della vegetazione, che assorbe la radiazione nella banda del rosso e riflette invece le radiazioni nel vicino infrarosso. A differenza del DVI, però, l'NDVI è un indice normalizzato che assume valori compresi tra -1 e +1.
+$$∆NBR = PreNBR - PostNBR$$
 
-**$NDVI = \frac{NIR - Red}{NIR + Red}$**
+Il valore risultante ci dice il livello di gravità:
+
+| Livello di gravità | Range ∆NBR |
+| :--- | :---: |
+| Ricrescita elevata | -0.500 — -0251  |
+| Ricrescita bassa  | -0.250 — -0.101  |
+| Non bruciato | -0.100 — +0.099  |
+| Grav. bassa — moderata | +0.270 — +0.439  |
+| Grav. moderata — alta  | +0.440 — +0.659  |
+| Gravità alta  | +0.660 — +1.300  |
+
+```r
+nbr_diff1 <- nbr_2018 - nbr_2020  # Differenza tra prima dell'inizio e dopo la fine degli incendi
+nbr_diff2 <- nbr_2020 - nbr_2026  # Differenza tra dopo la fine e il periodo di recupero
+nbr_diff3 <- nbr_2018 - nbr_2026  # Differenza totale
+
+plot(nbr_diff1, col = rocket(100), main = "2018 - 2020")
+plot(nbr_diff2, col = rocket(100), main = "2020 - 2026")
+plot(nbr_diff3, col = rocket(100), main = "2018 - 2026")
+```
+
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/4ccf13c7b9819685ecb0d341df93e129b73a588e/ESAME/Immagini/BurnSeverity.png" />
+
+Nella prima mappa si può vedere come i valori alti associati ad un alto livello di gravità
+
+```r
+stack_dNBR <- c(nbr_diff1, nbr_diff2, nbr_diff3) # crea vettore di oggetti concatenandoli
+names(stack_dNBR) <- c("dNBR 2018-2020", "dNBR 2020-2026", "dNBR 2018-2026") # assegna nomi agli oggetti del vettore
+im.ridgeline(stack_dNBR, scale = 0.75, palette = "rocket") +
+  xlim(-1.5, 1.5) +                                                    # Restringimento dei valori di x per una visualizzazione migliore       
+       labs(title = "Ridgeline plot dei valori di ∆NBR")
+```
+
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/aee2a83d311f4e7f82a9c446a6f50c5caba5d332/ESAME/Immagini/dNBR.png" />
+
+## Analisi NDVI
+
+Il ***Normalized Difference Vegetation Index (NDVI)*** è uno degli indici di vegetazione più utilizzati nell'ambito del telerilevamento per valutare lo stato e il vigore della copertura vegetale. Si basa sulle caratteristiche spettrali della vegetazione, che grazie ai pigmenti fotosintetici assorbe la radiazione nel visibile, in particolare gran parte della radiazione nel rosso, e riflette invece le radiazioni nel vicino infrarosso a causa dell'interazione con l'endodermide fogliare. Di conseguenza l'indice NDVI è usato per valutare la presenza di vegetazione: valori elevati di DVI indicano una vegetazione vigorosa e con elevata attività fotosintetica. 
+
+$$NDVI = \frac{NIR - Red}{NIR + Red}$$
+
+È un indice normalizzato che assume valori compresi tra -1 e +1:
 
 * Valori prossimi a +1 indicano una vegetazione densa, sana e caratterizzata da elevata attività fotosintetica
 * Valori intorno allo 0 sono associati a vegetazione rada, danneggiata o a suoli privi di vegetazione
@@ -180,9 +224,11 @@ plot(ndvi_2020, col = inferno(100), main = "NDVI 2020")
 plot(ndvi_2026, col = inferno(100), main = "NDVI 2026")
 ```
 
-<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/5d7338ddbba7699bbce1c6d163c1b279e528e547/ESAME/Immagini/NDVI.png" />
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/d0bfcc5fb8647919e5e82713c136b6517135c446/ESAME/Immagini/NDVI.png" />
 
-Il confronto degli indici pre e post incendio mostra come nelle aree colpite dagli incendi i valori sono prossimi allo 0, per poi tornare a valori alti vicini a +1 dopo sei anni di recupero vegetazionale. Le aree che hanno mantenuto valori bassi invece sono gli insediamenti urbani, campi e zone deforestate dall'uomo. Le lagune hanno invece valori negativi prossimi al -1.
+Il confronto degli indici pre e post incendio mostra come nelle aree colpite dagli incendi i valori sono prossimi allo 0, per poi tornare a valori alti vicini a +1 dopo sei anni di recupero vegetazionale. Le aree che hanno mantenuto valori bassi invece sono gli insediamenti urbani, campi e zone deforestate dall'uomo. 
+
+Le aree lagunari, essendo all'interno delle linee di costa, non sono state tagliate dalla funzione `clipCoast` e vengono mostrate tramite valori vicini al -1. Ciò avviene perchè l'acqua ha una forte assorbanza nel NIR.
 
 ## Analisi multitemporale della della densità di distribuzione dell'NDVI mediante ridgeline plot
 
@@ -194,7 +240,7 @@ names(stack_ndvi) <- c("NDVI 2018", "NDVI 2020", "NDVI 2026")
 im.ridgeline(stack_ndvi, scale = 1, palette = "plasma")
 ```
 
-<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/9d08dadb3b9f9f35c361b26a0e6b758ee0544fb3/ESAME/Immagini/Ridgelines.png" />
+<img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/d0bfcc5fb8647919e5e82713c136b6517135c446/ESAME/Immagini/Ridgeline.png" />
 
 I grafici a cresta mostrano come dopo gli incendi del 2019-2020 la densità di dsitribuzione dell'NDVI si è appiattita e allargata, in quanto sono scomparsi i picchi di valori alti a causa della perdita di copertura forestale, che ha lasciato posto al suolo esposto caratterizzato da valori prossimi allo 0. I picchi negativi separati appartengono invece alle aree lagunari.
 
