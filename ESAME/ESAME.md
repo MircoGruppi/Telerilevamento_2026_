@@ -8,7 +8,7 @@
 ## Introduzione
 
 A partire da giugno 2019 fino a febbraio 2020 l'Australia sud-orientale è stata colpita da una serie di incendi boschivi. Il periodo è stato nominato l'"___Australian bushfire season___" o "___Black Summer___", data la lunga durata, la quantità di fuochi e l'area di impatto di oltre 24 milioni di ettari. 
-Una delle aree più impattate è la costa attorno al paese di *Mallacoota*, situato al confine tra gli stati di *Victoria* e *New South Wales* nella Contea di *East Gippsland*. Qui numerose aree protette sono state interessate dai fuochi, tra cui dei parchi nazionali. É importante quindi studiare gli impatti di questa serie di incendi e capire come la vegetazione ha recuperato nel tempo.
+Una delle aree più impattate è stata la costa attorno al paese di *Mallacoota*, situato al confine tra gli stati di *Victoria* e *New South Wales* nella Contea di *East Gippsland*. Qui numerose aree protette sono state interessate dai fuochi, tra cui vari parchi nazionali. É importante quindi studiare gli impatti di questa serie di incendi e capire come la vegetazione ha recuperato nel tempo.
 
 <p align="center"> <img width="362" height="512" src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/d0b29b7d197b15eef397cb02e3ec5501c5f4ee7f/ESAME/Immagini/Bushfires.jpg" />
 
@@ -24,7 +24,7 @@ Tramite le immagini satellitari di Sentinel-2, lanciato per il progetto Copernic
 
 ## Obiettivi
 
-L'obiettivo è valutare gli impatti dell'incendio sulla vegetazione sia con un'analisi qualitativa (tramite composizoni RGB), sia quantitativamente utilizzando gli indici:
+L'obiettivo è valutare gli impatti dell'incendio sulla vegetazione sia con un'analisi qualitativa (tramite composizoni RGB), sia quantitativamente utilizzando i seguenti indici:
 * NBR: Normalized Burn Ratio
 * NDVI: Normalized Difference Vegetation Index
 
@@ -33,7 +33,7 @@ L'analisi multitemporale invece permette di valutare il recupero vegetazionale d
 ## Metodologia
 
 ### Acquisizione dati
-Le immagini sono state acquisite dal portale web di [Google Earth Engine](https://earthengine.google.com/), selezionando l'area colpita dall'incendio. Le immagini sono state selezionate nello stesso periodo stagionale (1/05 - 31/05) per minimizzare gli effetti fenologici. 
+Le immagini sono state acquisite dal portale web di [Google Earth Engine](https://earthengine.google.com/), selezionando l'area colpita dall'incendio. Le immagini sono state selezionate nello stesso periodo stagionale estivo (1/05 - 31/05) per minimizzare gli effetti fenologici. 
 
 ## Analisi tramite Software R
 
@@ -96,7 +96,7 @@ La visualizzazione separata delle bande del visibile (blu, verde e rosso) e dell
 
 ### Composizione RGB a colori naturali
 
-Usando la funzione `plotRGB` del pacchetto `Terra` possiamo sovrapporre le bande del visibile producendo immagini a colori naturali. 
+Usando la funzione `plotRGB` del pacchetto `terra` possiamo sovrapporre le bande del visibile producendo immagini a colori naturali. 
 
 ```r
 im.multiframe(1,3)
@@ -112,7 +112,7 @@ La composizione RGB a colori naturali permette di effettuare un primo confronto 
 
 ### Composizione RGB a falsi colori
 
-Sostituendo il NIR al posto della banda del rosso, si evidenziano le zone di vegetazione. Queste immagini permettono di osservare lo stato di salute della vegetazione, poichè una maggiore riflessione del NIR indica una vegetazione sana che apparità con un rosso più intenso, rispetto invece a una vegetazione danneggiata e sottoposta a stress.
+Sostituendo il NIR al posto della banda del rosso, si evidenziano le zone con vegetazione. Queste immagini permettono di osservare lo stato di salute della vegetazione, poichè una maggiore riflessione del NIR indica una vegetazione sana che apparità con un rosso più intenso, rispetto invece a una vegetazione danneggiata e sottoposta a stress.
 
 ```r
 plotRGB(pre2018, r=4, g=2, b=1, stretch = "lin", main = "2018")   # Metto banda B8 sul rosso
@@ -128,7 +128,13 @@ Le immagini prodotte permettono di vedere con maggiore chiarezza le aree colpite
 
 ## Analisi NBR
 
-Il ***Normalized Burn Ratio (NBR)*** è un indice progettato per evidenziare aree bruciate da vasti incendi. Viene calcolato sfruttando la banda NIR (B8), indice di vegetazione in salute, e la banda **SWIR (B12)**, sensibile all'umidità e alle superfici bruciate. L'indice è normalizzato facendo la proporzione con la somma delle due bande: valori prossimi al +1 indicano buona attività fotosintetica, valori prossimi al -1 invece mostrano il suolo nudo e aree recentemente bruciate. Le superfici che invece non hanno subito danni da incendi hanno valori vicino allo 0.
+Il ***Normalized Burn Ratio (NBR)*** è un indice progettato per evidenziare aree bruciate da vasti incendi. Viene calcolato sfruttando la banda NIR (B8), indice di vegetazione in salute, e la banda **SWIR (B12)**, sensibile all'umidità e alle superfici bruciate.
+
+L'indice è normalizzato tramite la proporzione con la somma delle due bande:
+
++ Valori prossimi al +1 indicano buona attività fotosintetica.
++ valori prossimi al -1 invece mostrano il suolo nudo e aree recentemente bruciate.
++ Le superfici che invece non hanno subito danni da incendi hanno valori vicino allo 0.
 
 $$NBR = \frac{NIR - SWIR}{NIR + SWIR}$$
 
@@ -159,11 +165,11 @@ plot(nbr_2026, col = magma (100), main = "NBR 2026")
 
 <img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/d0bfcc5fb8647919e5e82713c136b6517135c446/ESAME/Immagini/NBR.png" />
 
-Nel 2020 si può vedere l'ampia estensione degli incendi, i cuoi danni sono rappresentati dai colori più scuri. Dopo sei anni si può notare che il suolo ha recuperato buona parte dell'impatto. Nel 2018 si notano bene le aree a sud-ovest già colpite da incendi, e il loro recupero negli anni successivi.
+Nel 2020 si può vedere l'ampia estensione degli incendi, i cui danni sono rappresentati dai colori più scuri. Dopo sei anni si può notare che il suolo ha recuperato buona parte dell'impatto. Nel 2018 si notano bene le aree a sud-ovest già colpite da incendi, e il loro recupero negli anni successivi.
 
 ### Burn Severity
 
-La gravità delle bruciature può essere calcolato tramite il delta NBR 
+La gravità dell'impatto degli incendi può essere calcolato tramite il delta NBR 
 
 $$∆NBR = PreNBR - PostNBR$$
 
@@ -190,11 +196,11 @@ plot(nbr_diff3, col = rocket(100), main = "2018 - 2026")
 
 <img src="https://github.com/MircoGruppi/Telerilevamento_2026_/blob/4ccf13c7b9819685ecb0d341df93e129b73a588e/ESAME/Immagini/BurnSeverity.png" />
 
-Nella prima mappa si può vedere come le zone colpite dagli incendi hanno valori vicino al +1, un livello di gravità delle bruciature molto alto Interessante notare però come l'impatto degli incendi precedenti al 2018 era già stato recuperato nel 2020. Nell'immagine successiva la situazione si è invertita, e i valori negativi mostrano che nei sei anni successivi alla _Black Summer_ c'è stata una ricrescita quasi totale della vegetazione. Nella terza immagine si vede infatti che la maggiorparte dei danni dell'incendio dopo sei anni sono stati ripristinati.
+Nella prima mappa si può vedere come le zone colpite dagli incendi hanno valori vicino al +1, un livello di gravità molto alto. Interessante notare però come l'impatto degli incendi precedenti al 2018 era già stato recuperato nel 2020. Nell'immagine successiva la situazione si è invertita, e i valori negativi mostrano che nei sei anni successivi alla _Black Summer_ c'è stata una ricrescita quasi totale della vegetazione. Nella terza immagine si vede infatti che la maggiorparte dei danni dell'incendio dopo sei anni sono stati ripristinati.
 
 ## Analisi NDVI
 
-Il ***Normalized Difference Vegetation Index (NDVI)*** è uno degli indici di vegetazione più utilizzati nell'ambito del telerilevamento per valutare lo stato e il vigore della copertura vegetale. Si basa sulle caratteristiche spettrali della vegetazione, che grazie ai pigmenti fotosintetici assorbe la radiazione nel visibile, in particolare gran parte della radiazione nel rosso, e riflette invece le radiazioni nel vicino infrarosso a causa dell'interazione con l'endodermide fogliare. Di conseguenza l'indice NDVI è usato per valutare la presenza di vegetazione: valori elevati di DVI indicano una vegetazione vigorosa e con elevata attività fotosintetica. 
+Il ***Normalized Difference Vegetation Index (NDVI)*** è uno degli indici di vegetazione più utilizzati nell'ambito del telerilevamento per valutare lo stato e il vigore della copertura vegetale. Si basa sulle caratteristiche spettrali della vegetazione, che grazie ai pigmenti fotosintetici assorbe la radiazione nel visibile, in particolare gran parte della radiazione nel rosso, e riflette invece le radiazioni nel vicino infrarosso a causa dell'interazione con l'endodermide fogliare. Di conseguenza l'indice NDVI è usato per valutare la presenza di vegetazione: valori elevati di NDVI indicano una vegetazione vigorosa e con elevata attività fotosintetica. 
 
 $$NDVI = \frac{NIR - Red}{NIR + Red} = \frac{DVI}{NIR + Red}$$
 
@@ -220,7 +226,7 @@ Il confronto degli indici pre e post incendio mostra come nelle aree colpite dag
 
 Le aree lagunari, essendo all'interno delle linee di costa, non sono state tagliate dalla funzione `crop` e vengono mostrate tramite valori vicini al -1. Ciò avviene perchè l'acqua ha una forte assorbanza nel NIR.
 
-## Analisi multitemporale della della densità di distribuzione dell'NDVI mediante ridgeline plot
+### Analisi multitemporale della della densità di distribuzione dell'NDVI mediante ridgeline plot
 
 Il ridgeline plot (grafico a cresta) permette di analizzare e confrontare la distribuzione dei valori dell'indice NDVI nelle diverse date di acquisizione delle immagini satellitari, evidenziando le variazioni della risposta della vegetazione nei tre periodi in esame.
 
